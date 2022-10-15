@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.scss'
 
-import { ChevronBarExpand, ChevronExpand, Search } from 'react-bootstrap-icons';
+import { ListUl, ChevronExpand, GraphUp, Search, Plus, BookmarkFill } from 'react-bootstrap-icons';
 
 import useProfilePhoto from './assets/profile.jpg';
 
@@ -26,31 +26,37 @@ function App() {
             <input type="text" name="" id="" placeholder='Procurar' />
             <Search />
           </div>
-          <div>
-            <ul>
-              <li>
-                <a href="#">Tarefas</a>
-              </li>
-              <li>
+          <ul className='menu'>
+            <li>
+              <a href="#">
+                <ListUl className='icon' />
+                Tarefas
+              </a>
+            </li>
+            {/* <li>
                 <a href="#">Importante</a>
               </li>
               <li>
                 <a href="#">Planeado</a>
-              </li>
-              <li>
-                <a href="#">Stats</a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            Etiquetas
-            <button>
-              add list
-            </button>
+              </li> */}
+            <li>
+              <a href="#">
+                <GraphUp className='icon' />
+                Relatório
+              </a>
+            </li>
+          </ul>
+          {/* <div className='tags'>
+            <div className='heading'>
+              <span>Etiquetas</span>
+              <button>
+                <Plus />
+              </button>
+            </div>
             <ul>
               <li>Teste</li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         <div className='main'>
