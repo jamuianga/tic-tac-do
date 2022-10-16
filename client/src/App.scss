@@ -1,5 +1,6 @@
-$primary-text-color: #f3f4f8;
+$primary-color: #101223;
 $secondary-color: #282a3a;
+$primary-text-color: #f3f4f8;
 
 * {
   padding: 0;
@@ -8,7 +9,7 @@ $secondary-color: #282a3a;
 }
 
 body {
-  background-color: #101223;
+  background-color: $primary-color;
   color: $primary-text-color;
   font-size: 18px;
 }
@@ -22,8 +23,11 @@ body {
   padding: 0 1.250em;
 
   .brand {
+    display: flex;
+    align-items: center;
+    height: 60px;
     font-size: 1.625em;
-    padding: 0.5em 0;
+    // padding: 0.5em 0;
     font-weight: bold;
     // border-bottom: 1px solid #282a3a;
   }
@@ -133,6 +137,103 @@ body {
 
     ul {
       list-style: none;
+    }
+  }
+}
+
+.main {
+  padding: 0 1em;
+  width: 100%;
+  background-color: $secondary-color;
+
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+
+      svg {
+        margin-right: 0.625em;
+      }
+    }
+
+    button {
+      background-color: $primary-color;
+      color: inherit;
+      border: none;
+      cursor: pointer;
+      padding: 1em;
+      border-radius: 5px;
+    }
+  }
+
+  .tasks {
+    margin: .5em 0;
+
+    .task {
+      display: flex;
+      align-items: center;
+      background-color: $primary-color;
+      padding: 0.3125em .625em;
+      border-radius: 5px;
+      margin-bottom: 0.3125em;
+
+      .input-check {
+        margin-right: .625em;
+        cursor: pointer;
+      }
+
+      .title {
+        flex-grow: 1;
+        padding-right: .3125em;
+      }
+
+      .due {
+        min-width: 100px;
+        text-align: center;
+      }
+
+      .priority {
+        min-width: 50px;
+        text-align: center;
+      }
+
+
+
+      // .meta {
+      //   display: flex;
+      //   flex-grow: 1;
+
+      // }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      button {
+        display: flex;
+        align-items: center;
+        padding: .625em;
+        background-color: transparent;
+        color: $primary-text-color;
+        border-radius: 50%;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $secondary-color;
+        }
+      }
     }
   }
 }

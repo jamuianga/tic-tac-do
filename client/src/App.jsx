@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.scss'
 
-import { ListUl, ChevronExpand, GraphUp, Search, Plus, BookmarkFill } from 'react-bootstrap-icons';
+import { Square, ChevronExpand, GraphUp, Search, PencilSquare, Trash, ListCheck, Flag } from 'react-bootstrap-icons';
 
 import useProfilePhoto from './assets/profile.jpg';
 
@@ -29,7 +29,7 @@ function App() {
           <ul className='menu'>
             <li>
               <a href="#">
-                <ListUl className='icon' />
+                <ListCheck className='icon' />
                 Tarefas
               </a>
             </li>
@@ -60,22 +60,32 @@ function App() {
         </div>
 
         <div className='main'>
-          <div className='header'>
-            <div>titulo</div>
-            <div>
-              <button>Adicionar</button>
+          <div className='heading'>
+            <div className='title'><ListCheck /> <span>Tarefas</span></div>
+            <button>Adicionar</button>
+            {/* <div>
               <button>Filtros</button>
-            </div>
+            </div> */}
           </div>
-          <div className='todo-list'>
+          <div className='tasks'>
             <div className='task'>
-              <div>Todo name</div>
-              <div className="meta">
-                <div>dates</div>
-                <div>priority</div>
-              </div>
               <div>
-                tag
+                <Square className='input-check' />
+              </div>
+              <div className='title'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+              <div className='due'>17/10/22</div>
+              <div className='priority'>
+                <button>
+                  <Flag />
+                </button>
+              </div>
+              <div className='actions'>
+                <button>
+                  <PencilSquare />
+                </button>
+                <button>
+                  <Trash />
+                </button>
               </div>
             </div>
           </div>
