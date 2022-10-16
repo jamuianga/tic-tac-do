@@ -2,39 +2,35 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.scss";
 import {
-  Square,
   ChevronExpand,
   GraphUp,
   Search,
-  PencilSquare,
-  Trash,
   ListCheck,
-  Flag,
 } from "react-bootstrap-icons";
+import TodoItem from "./components/todo-card/TodoCard";
 
 import useProfilePhoto from "./assets/profile.jpg";
 
 function App() {
-  const [todos, setTodos] = useState();
+  const [todos, setTodos] = useState([]);
 
-  const complete_task = (e) => {
-    const task_id = e.currentTarget.parentNode.id;
-    console.log(task_id);
-  };
+  // const complete_task = (e) => {
+  //   const task_id = e.currentTarget.parentNode.id;
+  //   console.log(task_id);
+  // };
 
   const fetchTodos = async () => {
     const response = await axios.get("http://localhost:3000/todos");
-
-    setTodos(response.data);
-
-    console.log(todos);
+    console.log(response.data)
+    setTodos(response.data.todos);
   };
 
   useEffect(() => {
-    // const get_todos = async () => {};
-    fetchTodos();
+    const controller = new AbortController();
 
+    fetchTodos();
     // console.log(todos)
+    return () => controller.abort();
   }, []);
 
   return (
@@ -93,37 +89,10 @@ function App() {
               <ListCheck /> <span>Tarefas</span>
             </div>
             <button>Adicionar</button>
-            {/* <div>
-              <button>Filtros</button>
-            </div> */}
           </div>
           <div className="tasks">
-            {todos.map((todo) => {
-              return (
-                <div className="task" id={todo.id} key={todo.id}>
-                  <button
-                    className="checkbox"
-                    onClick={(e) => complete_task(e)}
-                  >
-                    <Square />
-                  </button>
-                  <div className="title">{todo.short_description}</div>
-                  <div className="due">17/10/22</div>
-                  <div className="priority">
-                    <button>
-                      <Flag />
-                    </button>
-                  </div>
-                  <div className="actions">
-                    <button>
-                      <PencilSquare />
-                    </button>
-                    <button>
-                      <Trash />
-                    </button>
-                  </div>
-                </div>
-              );
+            {todos.map((todo, index) => {
+              return <TodoItem data={todo} key={index} />;
             })}
           </div>
         </div>
