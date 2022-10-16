@@ -69,9 +69,10 @@ function App() {
           </div>
           <div className='tasks'>
             <div className='task'>
-              <div>
+              {/* <input type="checkbox" /> */}
+              <button className='checkbox'>
                 <Square className='input-check' />
-              </div>
+              </button>
               <div className='title'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
               <div className='due'>17/10/22</div>
               <div className='priority'>
