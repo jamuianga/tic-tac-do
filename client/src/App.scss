@@ -1,5 +1,5 @@
-$primary-color: #101223;
-$secondary-color: #282a3a;
+$primary-color: #101828;
+$secondary-color: #1d2939;
 $primary-text-color: #f3f4f8;
 
 * {
@@ -27,9 +27,7 @@ body {
     align-items: center;
     height: 60px;
     font-size: 1.625em;
-    // padding: 0.5em 0;
     font-weight: bold;
-    // border-bottom: 1px solid #282a3a;
   }
 
   .user {
@@ -68,7 +66,7 @@ body {
       padding-right: 3em;
       outline: none;
       border: none;
-      background-color: #282a3a;
+      background-color: $secondary-color;
       border-radius: 4px;
       color: $primary-text-color;
       width: 100%;
