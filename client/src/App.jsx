@@ -7,12 +7,15 @@ import {
   Search,
   ListCheck,
 } from "react-bootstrap-icons";
-import TodoItem from "./components/todo-card/TodoCard";
+import TodoItem from "./pages/todos/TodoCard";
 
-import useProfilePhoto from "./assets/profile.jpg";
+import TodoForm from "./pages/todos/TodoForm";
+import Sidebar from "./components/Sidebar/Sidebar";
+import Modal from "./components/modal/Modal";
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   // const complete_task = (e) => {
   //   const task_id = e.currentTarget.parentNode.id;
@@ -21,80 +24,49 @@ function App() {
 
   const fetchTodos = async () => {
     const response = await axios.get("http://localhost:3000/todos");
-    console.log(response.data)
+    console.log(response.data);
     setTodos(response.data.todos);
+  };
+
+  const btnAdicionarTodoOnClikc = () => {
+    alert("Abrir form");
   };
 
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchTodos();
-    // console.log(todos)
+    // fetchTodos();
+
     return () => controller.abort();
   }, []);
 
   return (
     <>
       <div className="wrapper">
-        <div className="sidebar">
-          <div className="brand">TODO</div>
-          <div className="user">
-            <img src={useProfilePhoto} alt="user profile" />
-            <div>
-              <div className="name">Sivan Whiteley</div>
-              <div className="email">sivanwhiteley@gmail.com</div>
-            </div>
-            <ChevronExpand />
-          </div>
-          <div className="searchbar">
-            <input type="text" name="" id="" placeholder="Procurar" />
-            <Search />
-          </div>
-          <ul className="menu">
-            <li>
-              <a href="#">
-                <ListCheck className="icon" />
-                Tarefas
-              </a>
-            </li>
-            {/* <li>
-                <a href="#">Importante</a>
-              </li>
-              <li>
-                <a href="#">Planeado</a>
-              </li> */}
-            <li>
-              <a href="#">
-                <GraphUp className="icon" />
-                Relatório
-              </a>
-            </li>
-          </ul>
-          {/* <div className='tags'>
-            <div className='heading'>
-              <span>Etiquetas</span>
-              <button>
-                <Plus />
-              </button>
-            </div>
-            <ul>
-              <li>Teste</li>
-            </ul>
-          </div> */}
-        </div>
+        <Sidebar />
 
         <div className="main">
+          {/* <TodoForm open={isFormOpen} onClose={() => setIsFormOpen(false)} /> */}
           <div className="heading">
             <div className="title">
               <ListCheck /> <span>Tarefas</span>
             </div>
-            <button>Adicionar</button>
+            <button onClick={() => setIsFormOpen(true)}>Adicionar</button>
           </div>
           <div className="tasks">
             {todos.map((todo, index) => {
               return <TodoItem data={todo} key={index} />;
             })}
           </div>
+          <Modal
+            isOpen={isFormOpen}
+            onClose={() => setIsFormOpen(false)}
+            title="Adicionar tarefa"
+            btnCloseText="Cancelar"
+          >
+            <h1>Modal</h1>
+            <button onClick={() => setIsFormOpen(false)}>Fechar</button>
+          </Modal>
         </div>
       </div>
     </>

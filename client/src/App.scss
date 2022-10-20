@@ -12,6 +12,7 @@ body {
   background-color: $primary-color;
   color: $primary-text-color;
   font-size: 18px;
+  position: relative;
 }
 
 .wrapper {
@@ -20,7 +21,7 @@ body {
 
 .sidebar {
   min-width: 280px;
-  padding: 0 1.250em;
+  padding: 0 1.25em;
 
   .brand {
     display: flex;
@@ -91,7 +92,7 @@ body {
       text-decoration: none;
       display: flex;
       align-items: center;
-      padding: .5em 0.3125em;
+      padding: 0.5em 0.3125em;
       border-radius: 4px;
 
       .icon {
@@ -172,25 +173,25 @@ body {
   }
 
   .tasks {
-    margin: .5em 0;
+    margin: 0.5em 0;
 
     .task {
       display: flex;
       align-items: center;
       background-color: $primary-color;
-      padding: 0.3125em .625em;
+      padding: 0.3125em 0.625em;
       border-radius: 5px;
       margin-bottom: 0.3125em;
 
       .checkbox {
         padding: 0;
-        margin-right: .625em;
+        margin-right: 0.625em;
         font-size: 18px;
       }
 
       .title {
         flex-grow: 1;
-        padding-right: .3125em;
+        padding-right: 0.3125em;
       }
 
       .due {
@@ -212,7 +213,7 @@ body {
       button {
         display: flex;
         align-items: center;
-        padding: .625em;
+        padding: 0.625em;
         background-color: transparent;
         color: $primary-text-color;
         border-radius: 50%;
@@ -226,5 +227,37 @@ body {
         }
       }
     }
+  }
+}
+
+#modal {
+  // position: relative;
+  // z-index: -1000;
+  // top: 0;
+  // bottom: 0;
+  // left: 0;
+  // right: 0;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+
+  .container {
+    // width: 600px;
+    // height: 600px;
+    // background-color: $secondary-color;
+    // border-radius: 6px;
+    // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    // border: 1px solid $primary-text-color;
+    // z-index: 1000;
+  }
+
+  .overlay {
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // bottom: 0;
+    // right: 0;
+    // background-color: rgba(0, 0, 0, 0.3);
+    // z-index: 1000;
   }
 }
