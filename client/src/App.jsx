@@ -41,7 +41,7 @@ function App() {
       if (todo.shortDescription.replace(/\s/g, "") == "")
         return alert("preencha a descrição");
 
-      console.log(todo, completedRef.current.checked);
+      // console.log(todo, completedRef.current.checked);
 
       await axios.post("http://localhost:3000/todos", {
         ...todo
