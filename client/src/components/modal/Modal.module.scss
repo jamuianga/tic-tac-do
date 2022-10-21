@@ -14,13 +14,14 @@
 
 .modal {
   width: 50%;
-  height: 300px;
+  min-height: 300px;
   background-color: App.$primary-color;
+  border-radius: 0.25rem;
 }
 
 .header {
-  font-size: 1.375em;
-  padding: 0.625em;
+  font-size: 1.375rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,8 +32,9 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    margin-left: auto;
     border-radius: 50%;
-    padding: 0.125em;
+    padding: 0.125rem;
 
     &:hover {
       background-color: App.$secondary-color;
@@ -41,5 +43,5 @@
 }
 
 .content {
-  padding: 0.625em;
+  padding: 1rem;
 }

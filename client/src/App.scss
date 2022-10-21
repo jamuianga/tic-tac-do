@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap");
+
 $primary-color: #101828;
 $secondary-color: #1d2939;
 $primary-text-color: #f3f4f8;
@@ -11,7 +13,8 @@ $primary-text-color: #f3f4f8;
 body {
   background-color: $primary-color;
   color: $primary-text-color;
-  font-size: 18px;
+  font-size: 16px;
+  font-family: "Nunito Sans", sans-serif;
   position: relative;
 }
 
@@ -21,26 +24,26 @@ body {
 
 .sidebar {
   min-width: 280px;
-  padding: 0 1.25em;
+  padding: 0 1.25rem;
 
   .brand {
     display: flex;
     align-items: center;
     height: 60px;
-    font-size: 1.625em;
+    font-size: 1.625rem;
     font-weight: bold;
   }
 
   .user {
     display: flex;
     align-items: center;
-    margin: 0.5em 0;
+    margin: 0.5rem 0;
 
     img {
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      margin-right: 0.9375em;
+      margin-right: 0.9375rem;
     }
 
     .name {
@@ -60,22 +63,22 @@ body {
     display: flex;
     align-items: center;
     position: relative;
-    margin: 1em 0;
+    margin: 1rem 0;
 
     input {
-      padding: 1em;
-      padding-right: 3em;
+      padding: 1rem;
+      padding-right: 3rem;
       outline: none;
       border: none;
       background-color: $secondary-color;
-      border-radius: 4px;
+      border-radius: 0.25rem;
       color: $primary-text-color;
       width: 100%;
     }
 
     svg {
       position: absolute;
-      right: 1em;
+      right: 1rem;
       font-size: 14px;
     }
   }
@@ -84,7 +87,7 @@ body {
     list-style: none;
 
     li {
-      margin-bottom: 4px;
+      margin-bottom: 0.25rem;
     }
 
     a {
@@ -92,11 +95,11 @@ body {
       text-decoration: none;
       display: flex;
       align-items: center;
-      padding: 0.5em 0.3125em;
-      border-radius: 4px;
+      padding: 0.5rem 0.3125rem;
+      border-radius: 0.25rem;
 
       .icon {
-        margin-right: 0.625em;
+        margin-right: 0.625rem;
         font-size: 18px;
       }
 
@@ -126,7 +129,7 @@ body {
         border-radius: 50%;
         display: flex;
         align-items: center;
-        padding: 0.3125em;
+        padding: 0.3125rem;
 
         &:hover {
           background-color: $secondary-color;
@@ -139,9 +142,18 @@ body {
     }
   }
 }
+// common
+button {
+  background-color: $primary-color;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  padding: 1rem;
+  border-radius: 5px;
+}
 
 .main {
-  padding: 0 1em;
+  padding: 0 1rem;
   width: 100%;
   background-color: $secondary-color;
 
@@ -158,40 +170,31 @@ body {
       align-items: center;
 
       svg {
-        margin-right: 0.625em;
+        margin-right: 0.625rem;
       }
-    }
-
-    button {
-      background-color: $primary-color;
-      color: inherit;
-      border: none;
-      cursor: pointer;
-      padding: 1em;
-      border-radius: 5px;
     }
   }
 
   .tasks {
-    margin: 0.5em 0;
+    margin: 0.5rem 0;
 
     .task {
       display: flex;
       align-items: center;
       background-color: $primary-color;
-      padding: 0.3125em 0.625em;
-      border-radius: 5px;
-      margin-bottom: 0.3125em;
+      padding: 0.3125rem 0.625rem;
+      border-radius: 0.25rem;
+      margin-bottom: 0.3125rem;
 
       .checkbox {
         padding: 0;
-        margin-right: 0.625em;
+        margin-right: 0.625rem;
         font-size: 18px;
       }
 
       .title {
         flex-grow: 1;
-        padding-right: 0.3125em;
+        padding-right: 0.3125rem;
       }
 
       .due {
@@ -213,7 +216,7 @@ body {
       button {
         display: flex;
         align-items: center;
-        padding: 0.625em;
+        padding: 0.625rem;
         background-color: transparent;
         color: $primary-text-color;
         border-radius: 50%;
@@ -230,34 +233,41 @@ body {
   }
 }
 
-#modal {
-  // position: relative;
-  // z-index: -1000;
-  // top: 0;
-  // bottom: 0;
-  // left: 0;
-  // right: 0;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
+.form-todo {
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
 
-  .container {
-    // width: 600px;
-    // height: 600px;
-    // background-color: $secondary-color;
-    // border-radius: 6px;
-    // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    // border: 1px solid $primary-text-color;
-    // z-index: 1000;
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    input,
+    textarea,
+    select {
+      outline: none;
+      padding: 0.313rem;
+      background-color: $secondary-color;
+      color: $primary-text-color;
+      font-family: inherit;
+      border-radius: 0.25rem;
+      border: 1px solid $secondary-color;
+    }
   }
 
-  .overlay {
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // bottom: 0;
-    // right: 0;
-    // background-color: rgba(0, 0, 0, 0.3);
-    // z-index: 1000;
+  button {
+    background-color: $secondary-color;
+  }
+
+  .checkbox {
+    input {
+      margin-right: 0.625rem;
+    }
+
+    label {
+      font-weight: normal;
+    }
   }
 }

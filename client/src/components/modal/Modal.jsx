@@ -11,7 +11,7 @@ function Modal({ children, isOpen, onClose, title }) {
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <div className={styles.header}>
-          <span>{title}</span>
+          {title}
           <span className={styles.icon}>
             <X onClick={onClose} />
           </span>

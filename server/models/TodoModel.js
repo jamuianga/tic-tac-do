@@ -6,29 +6,30 @@ const User = db.define(
     id: {
       primaryKey: true,
       type: DataTypes.BIGINT,
-      autoIncrement: true,
+      autoIncrement: true
     },
     short_description: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     due_date: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATEONLY
     },
     priority: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
+    completed: DataTypes.BOOLEAN,
     created: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE
     },
     modified: {
       type: DataTypes.DATE,
-      allowNull: true,
-    },
+      allowNull: true
+    }
   },
   {
     tableName: "todo",
-    timestamps: false,
+    timestamps: false
   }
 );
 
