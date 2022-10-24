@@ -23,7 +23,7 @@ function App() {
 
   const fetchTodos = async () => {
     const response = await axios.get("http://localhost:3000/todos");
-    // console.log(response.data);
+    console.log(response.data);
     setTodos(response.data.todos);
   };
 
@@ -56,6 +56,15 @@ function App() {
     }
   };
 
+  const deleteTodo = async () => {
+    try {
+      console.log('delete');
+      await fetchTodos();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const controller = new AbortController();
 
@@ -70,7 +79,6 @@ function App() {
         <Sidebar />
 
         <div className="main">
-          {/* <TodoForm open={isFormOpen} onClose={() => setIsFormOpen(false)} /> */}
           <div className="heading">
             <div className="title">
               <ListCheck /> <span>Tarefas</span>
@@ -79,7 +87,7 @@ function App() {
           </div>
           <div className="tasks">
             {todos.map((todo, index) => {
-              return <TodoItem data={todo} key={index} />;
+              return <TodoItem data={todo} key={index} onDelete={deleteTodo} />;
             })}
           </div>
           <Modal

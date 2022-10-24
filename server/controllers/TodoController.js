@@ -2,7 +2,11 @@ import UserModel from "../models/TodoModel.js";
 
 export const readTodos = async (request, response) => {
   try {
-    const todos = await UserModel.findAndCountAll({ order: [["id", "desc"]] });
+    const todos = await UserModel.findAndCountAll({
+      where: {
+        deleted: 0
+      }, order: [["id", "desc"]]
+    });
 
     return response.json({ todos: todos.rows, count: todos.count });
   } catch (error) {
@@ -34,3 +38,12 @@ export const createTodo = async (request, response) => {
     return response.status(500).json(error);
   }
 };
+
+export const deleteTodo = async (request, response) => {
+  try {
+
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json(error);
+  }
+}
