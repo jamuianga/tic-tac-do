@@ -35,7 +35,7 @@ function App() {
         shortDescription: shortDescriptionRef.current.value,
         dueDate: dueDateRef.current.value,
         priority: priorityRef.current.value,
-        completed: completedRef.current.checked,
+        is_completed: completedRef.current.checked,
       };
 
       if (todo.shortDescription.replace(/\s/g, '') == '')
