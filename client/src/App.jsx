@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import "./App.scss";
-import { ListCheck } from "react-bootstrap-icons";
-import TodoItem from "./pages/todos/TodoCard";
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import './App.scss';
+import { ListCheck } from 'react-bootstrap-icons';
+import TodoItem from './pages/todos/TodoCard';
 
-import Sidebar from "./components/Sidebar/Sidebar";
-import Modal from "./components/modal/Modal";
+import Sidebar from './components/Sidebar/Sidebar';
+import Modal from './components/modal/Modal';
 
 function App() {
   const shortDescriptionRef = useRef();
@@ -22,7 +22,7 @@ function App() {
   // };
 
   const fetchTodos = async () => {
-    const response = await axios.get("http://localhost:3000/todos");
+    const response = await axios.get('http://localhost:3000/todos');
     console.log(response.data);
     setTodos(response.data.todos);
   };
@@ -35,16 +35,16 @@ function App() {
         shortDescription: shortDescriptionRef.current.value,
         dueDate: dueDateRef.current.value,
         priority: priorityRef.current.value,
-        completed: completedRef.current.checked
+        completed: completedRef.current.checked,
       };
 
-      if (todo.shortDescription.replace(/\s/g, "") == "")
-        return alert("preencha a descrição");
+      if (todo.shortDescription.replace(/\s/g, '') == '')
+        return alert('preencha a descrição');
 
       // console.log(todo, completedRef.current.checked);
 
-      await axios.post("http://localhost:3000/todos", {
-        ...todo
+      await axios.post('http://localhost:3000/todos', {
+        ...todo,
       });
 
       setShowTodoForm(false);
@@ -56,9 +56,14 @@ function App() {
     }
   };
 
-  const deleteTodo = async () => {
+  const deleteTodo = async (todoId) => {
     try {
-      console.log('delete');
+      const response = await axios.delete(
+        `http://localhost:3000/todos/${todoId}`,
+      );
+
+      alert('Apagado');
+
       await fetchTodos();
     } catch (error) {
       console.log(error);

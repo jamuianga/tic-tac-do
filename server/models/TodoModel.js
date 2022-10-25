@@ -1,6 +1,6 @@
 import db, { DataTypes } from "../helper/database.js";
 
-const User = db.define(
+const Todo = db.define(
   "Todo",
   {
     id: {
@@ -33,4 +33,4 @@ const User = db.define(
   }
 );
 
-export default User;
+export default Todo;

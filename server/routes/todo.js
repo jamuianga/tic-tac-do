@@ -7,7 +7,7 @@ router.route('/')
   .get(TodoController.readTodos)
   .post(TodoController.createTodo);
 
-router.route('/:todo_id')
+router.route('/:todoId')
   .delete(TodoController.deleteTodo);
 
 export default router;

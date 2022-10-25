@@ -1,8 +1,8 @@
-import UserModel from "../models/TodoModel.js";
+import TodoModel from "../models/TodoModel.js";
 
 export const readTodos = async (request, response) => {
   try {
-    const todos = await UserModel.findAndCountAll({
+    const todos = await TodoModel.findAndCountAll({
       where: {
         deleted: 0
       }, order: [["id", "desc"]]
@@ -24,7 +24,7 @@ export const createTodo = async (request, response) => {
 
     if (dueDate.replace(/\s/g, "") == "") dueDate = null;
 
-    const todo = await UserModel.create({
+    const todo = await TodoModel.create({
       short_description: shortDescription,
       due_date: dueDate,
       priority,
@@ -41,7 +41,26 @@ export const createTodo = async (request, response) => {
 
 export const deleteTodo = async (request, response) => {
   try {
+    if (request.params.todoId === undefined)
+      return response.status(500).json('Routing server error');
 
+    // checks if todo exists in the database
+    const todo = await TodoModel.findByPk(request.params.todoId);
+
+    if (todo === null)
+      return response.status(404).json('Todo not found');
+
+    // ver se não foi apagado already
+    // soft delete
+    await TodoModel.update({ deleted: 1 }, {
+      where: {
+        id: request.params.todoId
+      }
+    });
+
+    // console.log(todo);
+
+    response.json({ success: 'Apagado com sucesso' })
   } catch (error) {
     console.log(error);
     return response.status(500).json(error);

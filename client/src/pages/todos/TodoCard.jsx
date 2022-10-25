@@ -25,7 +25,7 @@ function TodoItem({ data, onDelete }) {
         <button>
           <PencilSquare />
         </button>
-        <button onClick={onDelete}>
+        <button onClick={() => onDelete(data.id)}>
           <Trash />
         </button>
       </div>
