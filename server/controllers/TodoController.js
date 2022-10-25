@@ -4,7 +4,7 @@ export const readTodos = async (request, response) => {
   try {
     const todos = await TodoModel.findAndCountAll({
       where: {
-        deleted: 0
+        is_deleted: false
       }, order: [["id", "desc"]]
     });
 
@@ -29,7 +29,7 @@ export const createTodo = async (request, response) => {
       due_date: dueDate,
       priority,
       completed,
-      created: new Date()
+      created: Date.now()
     });
 
     response.json(todo);
@@ -44,21 +44,17 @@ export const deleteTodo = async (request, response) => {
     if (request.params.todoId === undefined)
       return response.status(500).json('Routing server error');
 
-    // checks if todo exists in the database
+    // checks if todo exists in the database or was deleted
     const todo = await TodoModel.findByPk(request.params.todoId);
 
-    if (todo === null)
+    if (todo === null || todo.is_deleted == true)
       return response.status(404).json('Todo not found');
 
-    // ver se não foi apagado already
     // soft delete
-    await TodoModel.update({ deleted: 1 }, {
-      where: {
-        id: request.params.todoId
-      }
+    await todo.update({
+      is_deleted: 1,
+      modified: Date.now()
     });
-
-    // console.log(todo);
 
     response.json({ success: 'Apagado com sucesso' })
   } catch (error) {

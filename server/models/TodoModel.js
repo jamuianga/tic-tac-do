@@ -18,7 +18,8 @@ const Todo = db.define(
     priority: {
       type: DataTypes.STRING
     },
-    completed: DataTypes.BOOLEAN,
+    is_completed: DataTypes.BOOLEAN,
+    is_deleted: DataTypes.BOOLEAN,
     created: {
       type: DataTypes.DATE
     },
