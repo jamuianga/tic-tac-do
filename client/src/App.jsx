@@ -1,134 +1,134 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FilterListOutlined } from '@mui/icons-material';
 import './App.scss';
-import { ListCheck } from 'react-bootstrap-icons';
-import TodoItem from './pages/todos/TodoCard';
-
-import Sidebar from './components/Sidebar/Sidebar';
-import Modal from './components/modal/Modal';
+import Tarefa from './components/tarefa';
 
 function App() {
-  const shortDescriptionRef = useRef();
-  const dueDateRef = useRef();
-  const priorityRef = useRef();
-  const completedRef = useRef();
+  const [tarefas, setTarefas] = useState([]);
+  const [tarefa, setTarefa] = useState('');
+  const [filtroMostrar, setFiltroMostrar] = useState(0);
 
-  const [todos, setTodos] = useState([]);
-  const [showTodoForm, setShowTodoForm] = useState(false);
-
-  // const complete_task = (e) => {
-  //   const task_id = e.currentTarget.parentNode.id;
-  //   console.log(task_id);
-  // };
-
-  const fetchTodos = async () => {
-    const response = await axios.get('http://localhost:3000/todos');
-    console.log(response.data);
-    setTodos(response.data.todos);
+  const carregarTarefas = async () => {
+    const response = await axios.get('http://localhost:3000/todos', {
+      params: {
+        show: filtroMostrar,
+      },
+    });
+    setTarefas(response.data.todos);
   };
 
-  const saveTodo = async (e) => {
+  const adicionarTarefa = async (e) => {
     try {
       e.preventDefault();
 
-      const todo = {
-        shortDescription: shortDescriptionRef.current.value,
-        dueDate: dueDateRef.current.value,
-        priority: priorityRef.current.value,
-        is_completed: completedRef.current.checked,
-      };
-
-      if (todo.shortDescription.replace(/\s/g, '') == '')
-        return alert('preencha a descrição');
-
-      // console.log(todo, completedRef.current.checked);
+      if (!tarefa) return;
 
       await axios.post('http://localhost:3000/todos', {
-        ...todo,
+        short_description: tarefa,
       });
 
-      setShowTodoForm(false);
-
-      await fetchTodos();
+      await carregarTarefas();
+      setTarefa('');
     } catch (error) {
-      // if (error.data) console.log(error.message);
+      alert('Ocorreu um erro ao adicionar taref');
       console.log(error);
     }
   };
 
-  const deleteTodo = async (todoId) => {
+  const atualizarEstadoTarefa = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/todos/${todoId}`,
-      );
+      let tarefa = tarefas.find((el) => el.id == id);
 
-      alert('Apagado');
+      await axios.put(`http://localhost:3000/todos/${id}`, {
+        short_description: tarefa.short_description,
+        is_completed: !tarefa.is_completed,
+      });
 
-      await fetchTodos();
+      await carregarTarefas();
     } catch (error) {
+      alert('Ocorreu um erro ao alterar estado da tarefa');
       console.log(error);
     }
+  };
+
+  const moverTarefaParaLixeira = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/todos/${id}`);
+      await carregarTarefas();
+    } catch (error) {
+      alert('Ocorreu um erro ao alterar estado da tarefa');
+      console.log(error);
+    }
+  };
+
+  const apagarTarefa = (id) => {
+    alert('Por implementar com API');
+    // const tarefasAtualizadas = tarefas.filter((el) => el.id != id);
+    // setTarefas(tarefasAtualizadas);
+    // localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
   };
 
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchTodos();
+    carregarTarefas();
 
     return () => controller.abort();
-  }, []);
+  }, [filtroMostrar]);
 
   return (
     <>
-      <div className="wrapper">
-        <Sidebar />
-
-        <div className="main">
-          <div className="heading">
-            <div className="title">
-              <ListCheck /> <span>Tarefas</span>
-            </div>
-            <button onClick={() => setShowTodoForm(true)}>Adicionar</button>
-          </div>
-          <div className="tasks">
-            {todos.map((todo, index) => {
-              return <TodoItem data={todo} key={index} onDelete={deleteTodo} />;
-            })}
-          </div>
-          <Modal
-            isOpen={showTodoForm}
-            onClose={() => setShowTodoForm(false)}
-            title="Adicionar tarefa"
+      <nav>
+        <div className="container">Tic-Tac-Do</div>
+      </nav>
+      <main>
+        <form onSubmit={adicionarTarefa}>
+          <input
+            className="form-input"
+            type="text"
+            placeholder="Descrição da tarefa"
+            value={tarefa}
+            onChange={(e) => setTarefa(e.target.value)}
+          />
+          <button type="submit" className="form-input">
+            Adicionar
+          </button>
+        </form>
+        <div className="filtros">
+          <select
+            value={filtroMostrar}
+            onChange={(e) => setFiltroMostrar(e.target.value)}
           >
-            <form className="form-todo" onSubmit={(e) => saveTodo(e)}>
-              <div className="form-group">
-                <label>Descrição</label>
-                <textarea rows="4" maxLength={255} ref={shortDescriptionRef} />
-              </div>
-              <div className="form-group">
-                <label>Data de entrega</label>
-                <input type="date" ref={dueDateRef} />
-              </div>
-              <div className="row form-group">
-                <label>Prioridade</label>
-                <select ref={priorityRef}>
-                  <option value=""></option>
-                  <option value="Alta">Alta</option>
-                  <option value="Média">Média</option>
-                  <option value="Baixa">Baixa</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <div className="checkbox">
-                  <input type="checkbox" id="completed" ref={completedRef} />
-                  <label htmlFor="completed">Concluído</label>
-                </div>
-              </div>
-              <button type="submit">Salvar</button>
-            </form>
-          </Modal>
+            <option value="-1">Todas</option>
+            <option value="1">Concluidas</option>
+            <option value="0">Não concluidas</option>
+          </select>
+          {/* <div className="filtrar">
+            <button>
+              <FilterListOutlined />
+              Filtrar
+            </button>
+            <div className="lista-filtros">
+              <div>Todas</div>
+              <div>Concluidas</div>
+              <div>Não concluidas</div>
+            </div>
+          </div> */}
         </div>
-      </div>
+        <div className="tarefas">
+          {tarefas.map((tarefa) => {
+            return (
+              <Tarefa
+                key={tarefa.id}
+                tarefa={tarefa}
+                atualizarEstadoTarefa={atualizarEstadoTarefa}
+                moverTarefaParaLixeira={moverTarefaParaLixeira}
+              />
+            );
+          })}
+        </div>
+      </main>
     </>
   );
 }
