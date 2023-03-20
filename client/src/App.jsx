@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-
 import './App.scss';
 
 function App() {
@@ -19,22 +18,27 @@ function App() {
     setAutoIncTarefa((prevAutoIncTarefa) => prevAutoIncTarefa + 1);
 
     localStorage.setItem('auto_inc_tarefa', autoIncTarefa);
+    localStorage.setItem('tarefas', JSON.stringify(tarefas));
 
     setTarefa('');
   };
 
   useEffect(() => {
-    //   let autoIncTarefa = localStorage.getItem('auto_inc_tarefa');
-    //   let tarefasDB = localStorage.getItem('tarefas'); console.log(tarefasDB)
-    //   if (!autoIncTarefa) {
-    //     autoIncTarefa = 1;
-    //     localStorage.setItem('auto_inc_tarefa', autoIncTarefa);
-    //   }
-    //   if (!tarefasDB) {
-    //     localStorage.setItem('tarefas', tarefas);
-    //   } else {
-    //     setTarefas(tarefasDB);
-    //   }
+    let autoIncTarefa = localStorage.getItem('auto_inc_tarefa');
+    let tarefasDB = localStorage.getItem('tarefas');
+
+    if (!autoIncTarefa) {
+      autoIncTarefa = 1;
+      localStorage.setItem('auto_inc_tarefa', autoIncTarefa);
+    } else {
+      setAutoIncTarefa(localStorage.getItem('auto_inc_tarefa'));
+    }
+
+    if (!tarefasDB) {
+      localStorage.setItem('tarefas', tarefas);
+    } else {
+      setTarefas(JSON.parse(tarefasDB));
+    }
   }, []);
 
   return (
