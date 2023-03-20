@@ -59,6 +59,11 @@ main {
     padding: 10px;
     align-items: center;
 
+    svg {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
     span {
       flex-grow: 1;
     }

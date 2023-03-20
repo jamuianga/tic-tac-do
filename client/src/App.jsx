@@ -1,10 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import {
+  CheckBoxOutlineBlankOutlined,
+  CheckBoxOutlined,
+} from '@mui/icons-material';
 import './App.scss';
 
 function App() {
   const [tarefas, setTarefas] = useState([]);
   const [tarefa, setTarefa] = useState('');
-  const [autoIncTarefa, setAutoIncTarefa] = useState(1);
+
+  const carregarTarefas = async () => {
+    const response = await axios.get('http://localhost:3000/todos');
+    setTarefas(response.data.todos);
+  };
 
   const adicionarTarefa = (e) => {
     e.preventDefault();
@@ -27,41 +36,29 @@ function App() {
   };
 
   const tarefaConcluida = (id) => {
-    const index = tarefas.findIndex((el) => el.id == id);
-    let tarefasAtualizadas = JSON.parse(JSON.stringify(tarefas)); 
+    alert('Por implementar com API');
+    // const index = tarefas.findIndex((el) => el.id == id);
+    // let tarefasAtualizadas = JSON.parse(JSON.stringify(tarefas));
 
-    tarefasAtualizadas[index].concluida = !tarefasAtualizadas[index].concluida;
+    // tarefasAtualizadas[index].concluida = !tarefasAtualizadas[index].concluida;
 
-    setTarefas(tarefasAtualizadas);
-    localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
+    // setTarefas(tarefasAtualizadas);
+    // localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
   };
 
-  // useEffect(() => {
-  //   console.log(tarefas);
-  // }, [tarefas]);
-
   const apagarTarefa = (id) => {
-    const tarefasAtualizadas = tarefas.filter((el) => el.id != id);
-    setTarefas(tarefasAtualizadas);
-    localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
+    alert('Por implementar com API');
+    // const tarefasAtualizadas = tarefas.filter((el) => el.id != id);
+    // setTarefas(tarefasAtualizadas);
+    // localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
   };
 
   useEffect(() => {
-    let autoIncTarefa = localStorage.getItem('auto_inc_tarefa');
-    let tarefasDB = localStorage.getItem('tarefas');
+    const controller = new AbortController();
 
-    if (!autoIncTarefa) {
-      autoIncTarefa = 1;
-      localStorage.setItem('auto_inc_tarefa', autoIncTarefa);
-    } else {
-      setAutoIncTarefa(localStorage.getItem('auto_inc_tarefa'));
-    }
+    carregarTarefas();
 
-    if (!tarefasDB) {
-      localStorage.setItem('tarefas', tarefas);
-    } else {
-      setTarefas(JSON.parse(tarefasDB));
-    }
+    return () => controller.abort();
   }, []);
 
   return (
@@ -84,13 +81,20 @@ function App() {
         </form>
         <div>
           {tarefas.map((el, index) => {
-            const concluida = el.concluida == true ? 'concluida' : '';
+            const concluida = el.is_completed == true ? 'concluida' : '';
 
             return (
-              <div className={`tarefa ${concluida}`} key={index}>
-                <span>{el.tarefa}</span>
+              <div className={`tarefa ${concluida}`} key={el.id}>
+                {el.is_completed == true ? (
+                  <CheckBoxOutlined onClick={() => tarefaConcluida(el.id)} />
+                ) : (
+                  <CheckBoxOutlineBlankOutlined
+                    onClick={() => tarefaConcluida(el.id)}
+                  />
+                )}
+                <span>{el.short_description}</span>
                 <button type="button" onClick={() => tarefaConcluida(el.id)}>
-                  {el.concluida == true ? 'Não concluida' : 'Concluida'}
+                  {el.is_completed == true ? 'Não concluida' : 'Concluida'}
                 </button>
                 <button type="button" onClick={() => apagarTarefa(el.id)}>
                   Apagar
