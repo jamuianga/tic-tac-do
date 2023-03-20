@@ -1,12 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { axios } from './main';
-import './App.scss';
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import axiosHttp from 'axios';
 import Tarefa from './components/tarefa';
 
+import {
+  CheckBoxOutlineBlankOutlined,
+  CheckBoxOutlined,
+} from '@mui/icons-material';
+import './App.scss';
+
+export const axios = axiosHttp.create({
+  baseURL: `${import.meta.env.VITE_API_URL}`,
+});
+
 function App() {
+  const tarefaRef = useRef();
   const [tarefas, setTarefas] = useState([]);
-  const [tarefa, setTarefa] = useState('');
+  const [tarefa, setTarefa] = useState({});
   const [filtroMostrar, setFiltroMostrar] = useState(0);
+  const [showTarefaModal, setShowTarefaModal] = useState(false);
 
   const carregarTarefas = async () => {
     const response = await axios.get('todos', {
@@ -14,6 +26,7 @@ function App() {
         show: filtroMostrar,
       },
     });
+
     setTarefas(response.data.todos);
   };
 
@@ -21,14 +34,15 @@ function App() {
     try {
       e.preventDefault();
 
-      if (!tarefa) return;
+      if (!tarefaRef.current.value) return;
 
       await axios.post('todos', {
         short_description: tarefa,
       });
 
       await carregarTarefas();
-      setTarefa('');
+
+      tarefaRef.current.value = '';
     } catch (error) {
       alert('Ocorreu um erro ao adicionar taref');
       console.log(error);
@@ -56,16 +70,13 @@ function App() {
       await axios.delete(`todos/${id}`);
       await carregarTarefas();
     } catch (error) {
-      alert('Ocorreu um erro ao alterar estado da tarefa');
+      alert('Ocorreu um erro ao apagar tarefa');
       console.log(error);
     }
   };
 
   const apagarTarefa = (id) => {
     alert('Por implementar com API');
-    // const tarefasAtualizadas = tarefas.filter((el) => el.id != id);
-    // setTarefas(tarefasAtualizadas);
-    // localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
   };
 
   useEffect(() => {
@@ -87,7 +98,8 @@ function App() {
             className="form-input"
             type="text"
             placeholder="Descrição da tarefa"
-            value={tarefa}
+            // value={tarefa}
+            ref={tarefaRef}
             onChange={(e) => setTarefa(e.target.value)}
           />
           <button type="submit" className="form-input">
@@ -123,12 +135,89 @@ function App() {
                 tarefa={tarefa}
                 atualizarEstadoTarefa={atualizarEstadoTarefa}
                 moverTarefaParaLixeira={moverTarefaParaLixeira}
+                onEditar={() => {
+                  setTarefa(tarefa);
+                  setShowTarefaModal(true);
+                }}
               />
             );
           })}
         </div>
       </main>
+      <TarefaModal
+        show={showTarefaModal}
+        close={(e) => {
+          e.stopPropagation();
+          setShowTarefaModal(false);
+        }}
+        aTarefa={tarefa}
+      />
     </>
+  );
+}
+
+function TarefaModal({ show = false, close, aTarefa }) {
+  if (!show) return null;
+
+  const [tarefa, setTarefa] = useState(aTarefa);
+
+  const descricaoOnChange = (e) => {
+    setTarefa((state) => {
+      return {
+        ...state,
+        short_description: e.target.value,
+      };
+    });
+  };
+
+  const atualizarTarefa = async (e) => {
+    try {
+      e.preventDefault();
+
+      await axios.put(`todos/${tarefa.id}`, {
+        short_description: tarefa.short_description,
+        is_completed: tarefa.is_completed,
+      });
+    } catch (error) {
+      alert('Ocorreu um erro ao salvar tarefa');
+      console.log(error);
+    }
+  };
+
+  return createPortal(
+    <div className="modal-overlay">
+      <div className="tarefa-modal">
+        <form onSubmit={atualizarTarefa}>
+          <input
+            className="descricao"
+            type="text"
+            placeholder="Descrição da tarefa"
+            value={tarefa.short_description}
+            onChange={descricaoOnChange}
+          />
+          {/* <div>
+            {tarefa.is_completed == true && (
+              <>
+                <CheckBoxOutlined /> <span>Concluída</span>
+              </>
+            )}
+
+            {tarefa.is_completed == false && (
+              <>
+                <CheckBoxOutlineBlankOutlined /> <span>Não concluída</span>
+              </>
+            )}
+          </div> */}
+          <div>
+            <button type="submit">Salvar</button>
+            <button type="button" onClick={close}>
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>,
+    document.getElementById('modal'),
   );
 }
 

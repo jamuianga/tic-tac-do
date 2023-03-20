@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDom from "react-dom";
+import { createPortal } from "react-dom";
 import { X } from "react-bootstrap-icons";
 
 import styles from "./Modal.module.scss";
@@ -7,7 +7,7 @@ import styles from "./Modal.module.scss";
 function Modal({ children, isOpen, onClose, title }) {
   if (!isOpen) return null;
 
-  return ReactDom.createPortal(
+  return createPortal(
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <div className={styles.header}>
