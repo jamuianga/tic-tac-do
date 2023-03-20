@@ -49,6 +49,16 @@ function App() {
     }
   };
 
+  const moverTarefaParaLixeira = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/todos/${id}`);
+      await carregarTarefas();
+    } catch (error) {
+      alert('Ocorreu um erro ao alterar estado da tarefa');
+      console.log(error);
+    }
+  };
+
   const apagarTarefa = (id) => {
     alert('Por implementar com API');
     // const tarefasAtualizadas = tarefas.filter((el) => el.id != id);
@@ -67,7 +77,7 @@ function App() {
   return (
     <>
       <nav>
-        <div className="container">Tarefas</div>
+        <div className="container">Tic-Tac-Do</div>
       </nav>
       <main>
         <form onSubmit={adicionarTarefa}>
@@ -98,7 +108,7 @@ function App() {
                   />
                 )}
                 <span>{el.short_description}</span>
-                <button type="button" onClick={() => apagarTarefa(el.id)}>
+                <button type="button" onClick={() => moverTarefaParaLixeira(el.id)}>
                   Apagar
                 </button>
               </div>

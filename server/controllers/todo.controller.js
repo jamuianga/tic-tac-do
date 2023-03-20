@@ -42,13 +42,21 @@ const readTodos = async (request, response) => {
 
 const updateTodo = async (request, response) => {
   try {
+    if (request.params.id === undefined) {
+      return response.status(500).json('Ocorreu um erro de roteamento');
+    }
+
     const todo = await TodoModel.findByPk(request.params.id);
 
+    // verifica se a Tarefa existe
     if (todo == null) {
       return response.status(404).json("Tarefa não encontrada");
     }
 
-    // TODO: check if tarefa was deleted
+    // garante que só seja alterado dados de uma tarefa que não foi apagada
+    if (todo.is_deleted == true) {
+      return response.status(400).json("Remova a tarefa da caixa de lixo para poder alterar os dados");
+    }
 
     let { short_description, is_completed } = request.body;
 
@@ -57,7 +65,7 @@ const updateTodo = async (request, response) => {
     }
 
     await todo.update({
-      short_description, is_completed
+      short_description, is_completed, modified: Date.now()
     });
 
     response.json();
@@ -69,22 +77,25 @@ const updateTodo = async (request, response) => {
 
 const deleteTodo = async (request, response) => {
   try {
-    if (request.params.todoId === undefined)
-      return response.status(500).json('Routing server error');
+    if (request.params.id === undefined) {
+      return response.status(500).json('Ocorreu um erro de roteamento');
+    }
 
     // checks if todo exists in the database or was deleted
-    const todo = await TodoModel.findByPk(request.params.todoId);
+    const todo = await TodoModel.findByPk(request.params.id);
 
-    if (todo === null || todo.is_deleted == true)
-      return response.status(404).json('Todo not found');
+    // verifica se a Tarefa existe
+    if (todo == null) {
+      return response.status(404).json("Tarefa não encontrada");
+    }
 
     // soft delete
     await todo.update({
-      is_deleted: 1,
+      is_deleted: true,
       modified: Date.now()
     });
 
-    response.json({ success: 'Apagado com sucesso' })
+    response.json('Apagado com sucesso');
   } catch (error) {
     console.log(error);
     return response.status(500).json(error);
