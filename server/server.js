@@ -10,6 +10,6 @@ app.use(express.json());
 
 app.use('/todos', TodoRouter);
 
-app.listen(3000, () => {
-  console.log(`Local: http://localhost:3000`);
+app.listen(Number(process.env.PORT), () => {
+  console.log(`Server is up on: http://localhost:${process.env.PORT}`);
 });
