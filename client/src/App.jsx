@@ -15,35 +15,38 @@ function App() {
     setTarefas(response.data.todos);
   };
 
-  const adicionarTarefa = (e) => {
-    e.preventDefault();
+  const adicionarTarefa = async (e) => {
+    try {
+      e.preventDefault();
 
-    if (!tarefa) return;
+      if (!tarefa) return;
 
-    tarefas.push({
-      id: autoIncTarefa,
-      tarefa: tarefa,
-      concluida: false,
-    });
+      await axios.post('http://localhost:3000/todos', {
+        short_description: tarefa,
+      });
 
-    setTarefas(tarefas);
-    setAutoIncTarefa((prevAutoIncTarefa) => parseInt(prevAutoIncTarefa) + 1);
-
-    localStorage.setItem('auto_inc_tarefa', autoIncTarefa);
-    localStorage.setItem('tarefas', JSON.stringify(tarefas));
-
-    setTarefa('');
+      await carregarTarefas();
+      setTarefa('');
+    } catch (error) {
+      alert('Ocorreu um erro ao adicionar taref');
+      console.log(error);
+    }
   };
 
-  const tarefaConcluida = (id) => {
-    alert('Por implementar com API');
-    // const index = tarefas.findIndex((el) => el.id == id);
-    // let tarefasAtualizadas = JSON.parse(JSON.stringify(tarefas));
+  const atualizarEstadoTarefa = async (id) => {
+    try {
+      let tarefa = tarefas.find((el) => el.id == id);
 
-    // tarefasAtualizadas[index].concluida = !tarefasAtualizadas[index].concluida;
+      await axios.put(`http://localhost:3000/todos/${id}`, {
+        short_description: tarefa.short_description,
+        is_completed: !tarefa.is_completed,
+      });
 
-    // setTarefas(tarefasAtualizadas);
-    // localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
+      await carregarTarefas();
+    } catch (error) {
+      alert('Ocorreu um erro ao alterar estado da tarefa');
+      console.log(error);
+    }
   };
 
   const apagarTarefa = (id) => {
@@ -71,7 +74,7 @@ function App() {
           <input
             className="form-input"
             type="text"
-            placeholder="Nome da tarefa"
+            placeholder="Descrição da tarefa"
             value={tarefa}
             onChange={(e) => setTarefa(e.target.value)}
           />
@@ -80,22 +83,21 @@ function App() {
           </button>
         </form>
         <div>
-          {tarefas.map((el, index) => {
+          {tarefas.map((el) => {
             const concluida = el.is_completed == true ? 'concluida' : '';
 
             return (
               <div className={`tarefa ${concluida}`} key={el.id}>
                 {el.is_completed == true ? (
-                  <CheckBoxOutlined onClick={() => tarefaConcluida(el.id)} />
+                  <CheckBoxOutlined
+                    onClick={() => atualizarEstadoTarefa(el.id)}
+                  />
                 ) : (
                   <CheckBoxOutlineBlankOutlined
-                    onClick={() => tarefaConcluida(el.id)}
+                    onClick={() => atualizarEstadoTarefa(el.id)}
                   />
                 )}
                 <span>{el.short_description}</span>
-                <button type="button" onClick={() => tarefaConcluida(el.id)}>
-                  {el.is_completed == true ? 'Não concluida' : 'Concluida'}
-                </button>
                 <button type="button" onClick={() => apagarTarefa(el.id)}>
                   Apagar
                 </button>

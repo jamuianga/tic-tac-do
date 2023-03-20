@@ -62,6 +62,7 @@ main {
     svg {
       margin-right: 10px;
       cursor: pointer;
+      font-size: 28px;
     }
 
     span {
@@ -70,7 +71,7 @@ main {
 
     button {
       padding: 5px 10px;
-      margin-left: 5px;
+      margin-left: 10px;
       outline: none;
       border: none;
       background-color: $primary-color;

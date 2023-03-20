@@ -2,18 +2,19 @@ import TodoModel from "../models/todo.model.js";
 
 const createTodo = async (request, response) => {
   try {
-    let { shortDescription, dueDate, priority, is_completed } = request.body;
+    let { short_description/*, dueDate, priority, is_completed */ } = request.body;
 
-    if (shortDescription.replace(/\s/g, "") == "")
+    if (short_description.replace(/\s/g, "") == "") {
       return response.status(400).json("Informe a descrição da tarefa");
+    }
 
-    if (dueDate.replace(/\s/g, "") == "") dueDate = null;
+    // if (dueDate.replace(/\s/g, "") == "") dueDate = null;
 
     const todo = await TodoModel.create({
-      short_description: shortDescription,
-      due_date: dueDate,
-      priority,
-      is_completed,
+      short_description,
+      // due_date: dueDate,
+      // priority,
+      // is_completed,
       created: Date.now()
     });
 
@@ -41,13 +42,25 @@ const readTodos = async (request, response) => {
 
 const updateTodo = async (request, response) => {
   try {
-    // check if exists
-    // check if was deleted
-    let { shortDescription, dueDate, priority, completed } = request.body;
+    const todo = await TodoModel.findByPk(request.params.id);
 
+    if (todo == null) {
+      return response.status(404).json("Tarefa não encontrada");
+    }
 
-    console.log(request.body);
-    response.json([]);
+    // TODO: check if tarefa was deleted
+
+    let { short_description, is_completed } = request.body;
+
+    if (short_description.replace(/\s/g, "") == "") {
+      return response.status(400).json("Informe a descrição da tarefa");
+    }
+
+    await todo.update({
+      short_description, is_completed
+    });
+
+    response.json();
   } catch (error) {
     console.log(error);
     return response.status(500).json(error);

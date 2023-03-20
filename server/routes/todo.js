@@ -7,7 +7,7 @@ router.route('/')
   .get(TodoController.readTodos)
   .post(TodoController.createTodo);
 
-router.route('/:todoId')
+router.route('/:id')
   .put(TodoController.updateTodo)
   .delete(TodoController.deleteTodo);
 
