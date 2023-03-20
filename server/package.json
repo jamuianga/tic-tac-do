@@ -5,8 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon serve.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "Jânio Muianga",
   "license": "ISC",
