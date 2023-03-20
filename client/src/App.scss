@@ -52,7 +52,7 @@ main {
     }
   }
 
-  .todo {
+  .tarefa {
     display: flex;
     background-color: $secondary-color;
     margin-bottom: 10px;
@@ -71,6 +71,13 @@ main {
       background-color: $primary-color;
       color: #fff;
       cursor: pointer;
+    }
+  }
+
+  .concluida {
+    span {
+      text-decoration: line-through;
+      font-style: italic;
     }
   }
 }

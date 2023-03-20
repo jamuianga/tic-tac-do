@@ -14,6 +14,7 @@ function App() {
     tarefas.push({
       id: autoIncTarefa,
       tarefa: tarefa,
+      concluida: false,
     });
 
     setTarefas(tarefas);
@@ -24,6 +25,20 @@ function App() {
 
     setTarefa('');
   };
+
+  const tarefaConcluida = (id) => {
+    const index = tarefas.findIndex((el) => el.id == id);
+    let tarefasAtualizadas = JSON.parse(JSON.stringify(tarefas)); 
+
+    tarefasAtualizadas[index].concluida = !tarefasAtualizadas[index].concluida;
+
+    setTarefas(tarefasAtualizadas);
+    localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
+  };
+
+  // useEffect(() => {
+  //   console.log(tarefas);
+  // }, [tarefas]);
 
   const apagarTarefa = (id) => {
     const tarefasAtualizadas = tarefas.filter((el) => el.id != id);
@@ -69,10 +84,14 @@ function App() {
         </form>
         <div>
           {tarefas.map((el, index) => {
+            const concluida = el.concluida == true ? 'concluida' : '';
+
             return (
-              <div className="todo" key={index}>
+              <div className={`tarefa ${concluida}`} key={index}>
                 <span>{el.tarefa}</span>
-                <button type="button">Feito</button>
+                <button type="button" onClick={() => tarefaConcluida(el.id)}>
+                  {el.concluida == true ? 'Não concluida' : 'Concluida'}
+                </button>
                 <button type="button" onClick={() => apagarTarefa(el.id)}>
                   Apagar
                 </button>
