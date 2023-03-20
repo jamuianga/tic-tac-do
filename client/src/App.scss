@@ -89,10 +89,29 @@ main {
     .descricao {
       width: 100%;
       border: none;
-      padding: 5px;
       margin-bottom: 10px;
+      padding: 5px;
       font-size: 20px;
       font-weight: bold;
+    }
+
+    .estado {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 5px;
+      width: fit-content;
+      cursor: pointer;
+
+      svg {
+        margin-right: 5px;
+        font-size: 16px;
+      }
+    }
+
+    .concluida {
+      background-color: #61bd4f;
+      color: #fff;
     }
 
     button,

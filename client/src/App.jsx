@@ -146,17 +146,25 @@ function App() {
       </main>
       <TarefaModal
         show={showTarefaModal}
+        setShow={setShowTarefaModal}
         close={(e) => {
           e.stopPropagation();
           setShowTarefaModal(false);
         }}
         aTarefa={tarefa}
+        carregarTarefas={carregarTarefas}
       />
     </>
   );
 }
 
-function TarefaModal({ show = false, close, aTarefa }) {
+function TarefaModal({
+  show = false,
+  setShow,
+  close,
+  aTarefa,
+  carregarTarefas,
+}) {
   if (!show) return null;
 
   const [tarefa, setTarefa] = useState(aTarefa);
@@ -178,10 +186,23 @@ function TarefaModal({ show = false, close, aTarefa }) {
         short_description: tarefa.short_description,
         is_completed: tarefa.is_completed,
       });
+
+      setShow(false);
+
+      await carregarTarefas();
     } catch (error) {
       alert('Ocorreu um erro ao salvar tarefa');
       console.log(error);
     }
+  };
+
+  const estadoTarefa = () => {
+    setTarefa((state) => {
+      return {
+        ...state,
+        is_completed: !state.is_completed,
+      };
+    });
   };
 
   return createPortal(
@@ -195,19 +216,17 @@ function TarefaModal({ show = false, close, aTarefa }) {
             value={tarefa.short_description}
             onChange={descricaoOnChange}
           />
-          {/* <div>
-            {tarefa.is_completed == true && (
-              <>
-                <CheckBoxOutlined /> <span>Concluída</span>
-              </>
-            )}
-
-            {tarefa.is_completed == false && (
-              <>
-                <CheckBoxOutlineBlankOutlined /> <span>Não concluída</span>
-              </>
-            )}
-          </div> */}
+          <div
+            onClick={estadoTarefa}
+            className={`estado ${tarefa.is_completed ? 'concluida' : ''}`}
+          >
+            {tarefa.is_completed ? (
+              <CheckBoxOutlined />
+            ) : (
+              <CheckBoxOutlineBlankOutlined />
+            )}{' '}
+            Concluída
+          </div>
           <div>
             <button type="submit">Salvar</button>
             <button type="button" onClick={close}>
