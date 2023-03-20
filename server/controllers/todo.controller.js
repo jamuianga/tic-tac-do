@@ -27,10 +27,17 @@ const createTodo = async (request, response) => {
 
 const readTodos = async (request, response) => {
   try {
+    let where = {
+      is_deleted: false
+    };
+
+    if (request.query?.show && request.query?.show != -1) {
+      where.is_completed = request.query?.show;
+    }
+
     const todos = await TodoModel.findAndCountAll({
-      where: {
-        is_deleted: false
-      }, order: [["id", "desc"]]
+      where,
+      order: [["id", "desc"]]
     });
 
     return response.json({ todos: todos.rows, count: todos.count });

@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  CheckBoxOutlineBlankOutlined,
-  CheckBoxOutlined,
-} from '@mui/icons-material';
+import { FilterListOutlined } from '@mui/icons-material';
 import './App.scss';
 import Tarefa from './components/tarefa';
 
 function App() {
   const [tarefas, setTarefas] = useState([]);
   const [tarefa, setTarefa] = useState('');
+  const [filtroMostrar, setFiltroMostrar] = useState(0);
 
   const carregarTarefas = async () => {
-    const response = await axios.get('http://localhost:3000/todos');
+    const response = await axios.get('http://localhost:3000/todos', {
+      params: {
+        show: filtroMostrar,
+      },
+    });
     setTarefas(response.data.todos);
   };
 
@@ -73,7 +75,7 @@ function App() {
     carregarTarefas();
 
     return () => controller.abort();
-  }, []);
+  }, [filtroMostrar]);
 
   return (
     <>
@@ -93,7 +95,28 @@ function App() {
             Adicionar
           </button>
         </form>
-        <div>
+        <div className="filtros">
+          <select
+            value={filtroMostrar}
+            onChange={(e) => setFiltroMostrar(e.target.value)}
+          >
+            <option value="-1">Todas</option>
+            <option value="1">Concluidas</option>
+            <option value="0">Não concluidas</option>
+          </select>
+          {/* <div className="filtrar">
+            <button>
+              <FilterListOutlined />
+              Filtrar
+            </button>
+            <div className="lista-filtros">
+              <div>Todas</div>
+              <div>Concluidas</div>
+              <div>Não concluidas</div>
+            </div>
+          </div> */}
+        </div>
+        <div className="tarefas">
           {tarefas.map((tarefa) => {
             return (
               <Tarefa
