@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { FilterListOutlined } from '@mui/icons-material';
+import { axios } from './main';
 import './App.scss';
 import Tarefa from './components/tarefa';
 
@@ -10,7 +9,7 @@ function App() {
   const [filtroMostrar, setFiltroMostrar] = useState(0);
 
   const carregarTarefas = async () => {
-    const response = await axios.get('http://localhost:3000/todos', {
+    const response = await axios.get('todos', {
       params: {
         show: filtroMostrar,
       },
@@ -24,7 +23,7 @@ function App() {
 
       if (!tarefa) return;
 
-      await axios.post('http://localhost:3000/todos', {
+      await axios.post('todos', {
         short_description: tarefa,
       });
 
@@ -40,7 +39,7 @@ function App() {
     try {
       let tarefa = tarefas.find((el) => el.id == id);
 
-      await axios.put(`http://localhost:3000/todos/${id}`, {
+      await axios.put(`todos/${id}`, {
         short_description: tarefa.short_description,
         is_completed: !tarefa.is_completed,
       });
@@ -54,7 +53,7 @@ function App() {
 
   const moverTarefaParaLixeira = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/todos/${id}`);
+      await axios.delete(`todos/${id}`);
       await carregarTarefas();
     } catch (error) {
       alert('Ocorreu um erro ao alterar estado da tarefa');
