@@ -5,7 +5,7 @@ import {
 } from '@mui/icons-material';
 import css from './index.module.scss';
 
-function Tarefa({ tarefa, atualizarEstadoTarefa, moverTarefaParaLixeira }) {
+function Tarefa({ tarefa, atualizarEstadoTarefa, moverTarefaParaLixeira, onEditar }) {
   const concluida = tarefa.is_completed == true ? `${css.concluida}` : '';
 
   return (
@@ -18,6 +18,7 @@ function Tarefa({ tarefa, atualizarEstadoTarefa, moverTarefaParaLixeira }) {
         />
       )}
       <div className={css.desciption}>{tarefa.short_description}</div>
+      <button type='button' onClick={onEditar}>Editar</button>
       <button type="button" onClick={() => moverTarefaParaLixeira(tarefa.id)}>
         Apagar
       </button>

@@ -66,6 +66,60 @@ main {
   }
 }
 
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.tarefa-modal {
+  margin-top: 48px;
+  padding: 20px;
+  background-color: #fff;
+  height: fit-content;
+  width: 600px;
+
+  form {
+    .descricao {
+      width: 100%;
+      border: none;
+      margin-bottom: 10px;
+      padding: 5px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .estado {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 5px;
+      width: fit-content;
+      cursor: pointer;
+
+      svg {
+        margin-right: 5px;
+        font-size: 16px;
+      }
+    }
+
+    .concluida {
+      background-color: #61bd4f;
+      color: #fff;
+    }
+
+    button,
+    input {
+      padding: 10px 20px;
+    }
+  }
+}
 // .wrapper {
 //   display: flex;
 // }
