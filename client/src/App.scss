@@ -1,273 +1,273 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap");
 
-$primary-color: #101828;
-$secondary-color: #1d2939;
-$primary-text-color: #f3f4f8;
+// $primary-color: #101828;
+// $secondary-color: #1d2939;
+// $primary-text-color: #f3f4f8;
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+// * {
+//   padding: 0;
+//   margin: 0;
+//   box-sizing: border-box;
+// }
 
-body {
-  background-color: $primary-color;
-  color: $primary-text-color;
-  font-size: 16px;
-  font-family: "Nunito Sans", sans-serif;
-  position: relative;
-}
+// body {
+//   background-color: $primary-color;
+//   color: $primary-text-color;
+//   font-size: 16px;
+//   font-family: "Nunito Sans", sans-serif;
+//   position: relative;
+// }
 
-.wrapper {
-  display: flex;
-}
+// .wrapper {
+//   display: flex;
+// }
 
-.sidebar {
-  min-width: 280px;
-  padding: 0 1.25rem;
+// .sidebar {
+//   min-width: 280px;
+//   padding: 0 1.25rem;
 
-  .brand {
-    display: flex;
-    align-items: center;
-    height: 60px;
-    font-size: 1.625rem;
-    font-weight: bold;
-  }
+//   .brand {
+//     display: flex;
+//     align-items: center;
+//     height: 60px;
+//     font-size: 1.625rem;
+//     font-weight: bold;
+//   }
 
-  .user {
-    display: flex;
-    align-items: center;
-    margin: 0.5rem 0;
+//   .user {
+//     display: flex;
+//     align-items: center;
+//     margin: 0.5rem 0;
 
-    img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      margin-right: 0.9375rem;
-    }
+//     img {
+//       width: 48px;
+//       height: 48px;
+//       border-radius: 50%;
+//       margin-right: 0.9375rem;
+//     }
 
-    .name {
-      font-weight: 700;
-    }
+//     .name {
+//       font-weight: 700;
+//     }
 
-    .email {
-      font-size: 14px;
-    }
+//     .email {
+//       font-size: 14px;
+//     }
 
-    svg {
-      margin-left: auto;
-    }
-  }
+//     svg {
+//       margin-left: auto;
+//     }
+//   }
 
-  .searchbar {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin: 1rem 0;
+//   .searchbar {
+//     display: flex;
+//     align-items: center;
+//     position: relative;
+//     margin: 1rem 0;
 
-    input {
-      padding: 1rem;
-      padding-right: 3rem;
-      outline: none;
-      border: none;
-      background-color: $secondary-color;
-      border-radius: 0.25rem;
-      color: $primary-text-color;
-      width: 100%;
-    }
+//     input {
+//       padding: 1rem;
+//       padding-right: 3rem;
+//       outline: none;
+//       border: none;
+//       background-color: $secondary-color;
+//       border-radius: 0.25rem;
+//       color: $primary-text-color;
+//       width: 100%;
+//     }
 
-    svg {
-      position: absolute;
-      right: 1rem;
-      font-size: 14px;
-    }
-  }
+//     svg {
+//       position: absolute;
+//       right: 1rem;
+//       font-size: 14px;
+//     }
+//   }
 
-  .menu {
-    list-style: none;
+//   .menu {
+//     list-style: none;
 
-    li {
-      margin-bottom: 0.25rem;
-    }
+//     li {
+//       margin-bottom: 0.25rem;
+//     }
 
-    a {
-      color: $primary-text-color;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      padding: 0.5rem 0.3125rem;
-      border-radius: 0.25rem;
+//     a {
+//       color: $primary-text-color;
+//       text-decoration: none;
+//       display: flex;
+//       align-items: center;
+//       padding: 0.5rem 0.3125rem;
+//       border-radius: 0.25rem;
 
-      .icon {
-        margin-right: 0.625rem;
-        font-size: 18px;
-      }
+//       .icon {
+//         margin-right: 0.625rem;
+//         font-size: 18px;
+//       }
 
-      &:hover {
-        background-color: $secondary-color;
-      }
-    }
-  }
+//       &:hover {
+//         background-color: $secondary-color;
+//       }
+//     }
+//   }
 
-  .tags {
-    .heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+//   .tags {
+//     .heading {
+//       display: flex;
+//       justify-content: space-between;
+//       align-items: center;
 
-      span {
-        font-weight: bold;
-      }
+//       span {
+//         font-weight: bold;
+//       }
 
-      button {
-        background-color: transparent;
-        cursor: pointer;
-        color: $primary-text-color;
-        border: none;
-        outline: none;
-        font-size: 24px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        padding: 0.3125rem;
+//       button {
+//         background-color: transparent;
+//         cursor: pointer;
+//         color: $primary-text-color;
+//         border: none;
+//         outline: none;
+//         font-size: 24px;
+//         border-radius: 50%;
+//         display: flex;
+//         align-items: center;
+//         padding: 0.3125rem;
 
-        &:hover {
-          background-color: $secondary-color;
-        }
-      }
-    }
+//         &:hover {
+//           background-color: $secondary-color;
+//         }
+//       }
+//     }
 
-    ul {
-      list-style: none;
-    }
-  }
-}
-// common
-button {
-  background-color: $primary-color;
-  color: inherit;
-  border: none;
-  cursor: pointer;
-  padding: 1rem;
-  border-radius: 5px;
-}
+//     ul {
+//       list-style: none;
+//     }
+//   }
+// }
+// // common
+// button {
+//   background-color: $primary-color;
+//   color: inherit;
+//   border: none;
+//   cursor: pointer;
+//   padding: 1rem;
+//   border-radius: 5px;
+// }
 
-.main {
-  padding: 0 1rem;
-  width: 100%;
-  background-color: $secondary-color;
+// .main {
+//   padding: 0 1rem;
+//   width: 100%;
+//   background-color: $secondary-color;
 
-  .heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
+//   .heading {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     height: 60px;
 
-    .title {
-      font-size: 24px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
+//     .title {
+//       font-size: 24px;
+//       font-weight: bold;
+//       display: flex;
+//       align-items: center;
 
-      svg {
-        margin-right: 0.625rem;
-      }
-    }
-  }
+//       svg {
+//         margin-right: 0.625rem;
+//       }
+//     }
+//   }
 
-  .tasks {
-    margin: 0.5rem 0;
+//   .tasks {
+//     margin: 0.5rem 0;
 
-    .task {
-      display: flex;
-      align-items: center;
-      background-color: $primary-color;
-      padding: 0.3125rem 0.625rem;
-      border-radius: 0.25rem;
-      margin-bottom: 0.3125rem;
+//     .task {
+//       display: flex;
+//       align-items: center;
+//       background-color: $primary-color;
+//       padding: 0.3125rem 0.625rem;
+//       border-radius: 0.25rem;
+//       margin-bottom: 0.3125rem;
 
-      .checkbox {
-        padding: 0;
-        margin-right: 0.625rem;
-        font-size: 18px;
-      }
+//       .checkbox {
+//         padding: 0;
+//         margin-right: 0.625rem;
+//         font-size: 18px;
+//       }
 
-      .title {
-        flex-grow: 1;
-        padding-right: 0.3125rem;
-      }
+//       .title {
+//         flex-grow: 1;
+//         padding-right: 0.3125rem;
+//       }
 
-      .due {
-        min-width: 100px;
-        text-align: center;
-      }
+//       .due {
+//         min-width: 100px;
+//         text-align: center;
+//       }
 
-      .priority {
-        min-width: 50px;
-        text-align: center;
-      }
+//       .priority {
+//         min-width: 50px;
+//         text-align: center;
+//       }
 
-      .actions {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+//       .actions {
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//       }
 
-      button {
-        display: flex;
-        align-items: center;
-        padding: 0.625rem;
-        background-color: transparent;
-        color: $primary-text-color;
-        border-radius: 50%;
-        border: none;
-        outline: none;
-        font-size: 15px;
-        cursor: pointer;
+//       button {
+//         display: flex;
+//         align-items: center;
+//         padding: 0.625rem;
+//         background-color: transparent;
+//         color: $primary-text-color;
+//         border-radius: 50%;
+//         border: none;
+//         outline: none;
+//         font-size: 15px;
+//         cursor: pointer;
 
-        &:hover {
-          background-color: $secondary-color;
-        }
-      }
-    }
-  }
-}
+//         &:hover {
+//           background-color: $secondary-color;
+//         }
+//       }
+//     }
+//   }
+// }
 
-.form-todo {
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
+// .form-todo {
+//   .form-group {
+//     display: flex;
+//     flex-direction: column;
+//     margin-bottom: 1rem;
 
-    label {
-      margin-bottom: 0.5rem;
-      font-weight: 700;
-    }
+//     label {
+//       margin-bottom: 0.5rem;
+//       font-weight: 700;
+//     }
 
-    input,
-    textarea,
-    select {
-      outline: none;
-      padding: 0.313rem;
-      background-color: $secondary-color;
-      color: $primary-text-color;
-      font-family: inherit;
-      border-radius: 0.25rem;
-      border: 1px solid $secondary-color;
-    }
-  }
+//     input,
+//     textarea,
+//     select {
+//       outline: none;
+//       padding: 0.313rem;
+//       background-color: $secondary-color;
+//       color: $primary-text-color;
+//       font-family: inherit;
+//       border-radius: 0.25rem;
+//       border: 1px solid $secondary-color;
+//     }
+//   }
 
-  button {
-    background-color: $secondary-color;
-  }
+//   button {
+//     background-color: $secondary-color;
+//   }
 
-  .checkbox {
-    input {
-      margin-right: 0.625rem;
-    }
+//   .checkbox {
+//     input {
+//       margin-right: 0.625rem;
+//     }
 
-    label {
-      font-weight: normal;
-    }
-  }
-}
+//     label {
+//       font-weight: normal;
+//     }
+//   }
+// }

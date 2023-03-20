@@ -1,134 +1,66 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import './App.scss';
-import { ListCheck } from 'react-bootstrap-icons';
-import TodoItem from './pages/todos/TodoCard';
+import React, { useEffect, useRef, useState } from 'react';
 
-import Sidebar from './components/Sidebar/Sidebar';
-import Modal from './components/modal/Modal';
+import './App.scss';
 
 function App() {
-  const shortDescriptionRef = useRef();
-  const dueDateRef = useRef();
-  const priorityRef = useRef();
-  const completedRef = useRef();
+  const [tarefas, setTarefas] = useState([]);
+  const [tarefa, setTarefa] = useState('');
+  const [autoIncTarefa, setAutoIncTarefa] = useState(1);
 
-  const [todos, setTodos] = useState([]);
-  const [showTodoForm, setShowTodoForm] = useState(false);
+  const adicionarTarefa = (e) => {
+    e.preventDefault();
 
-  // const complete_task = (e) => {
-  //   const task_id = e.currentTarget.parentNode.id;
-  //   console.log(task_id);
-  // };
+    tarefas.push({
+      id: autoIncTarefa,
+      tarefa: tarefa,
+    });
 
-  const fetchTodos = async () => {
-    const response = await axios.get('http://localhost:3000/todos');
-    console.log(response.data);
-    setTodos(response.data.todos);
-  };
+    setTarefas(tarefas);
+    setAutoIncTarefa((prevAutoIncTarefa) => prevAutoIncTarefa + 1);
 
-  const saveTodo = async (e) => {
-    try {
-      e.preventDefault();
+    localStorage.setItem('auto_inc_tarefa', autoIncTarefa);
 
-      const todo = {
-        shortDescription: shortDescriptionRef.current.value,
-        dueDate: dueDateRef.current.value,
-        priority: priorityRef.current.value,
-        is_completed: completedRef.current.checked,
-      };
-
-      if (todo.shortDescription.replace(/\s/g, '') == '')
-        return alert('preencha a descrição');
-
-      // console.log(todo, completedRef.current.checked);
-
-      await axios.post('http://localhost:3000/todos', {
-        ...todo,
-      });
-
-      setShowTodoForm(false);
-
-      await fetchTodos();
-    } catch (error) {
-      // if (error.data) console.log(error.message);
-      console.log(error);
-    }
-  };
-
-  const deleteTodo = async (todoId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3000/todos/${todoId}`,
-      );
-
-      alert('Apagado');
-
-      await fetchTodos();
-    } catch (error) {
-      console.log(error);
-    }
+    setTarefa('');
   };
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    fetchTodos();
-
-    return () => controller.abort();
+    //   let autoIncTarefa = localStorage.getItem('auto_inc_tarefa');
+    //   let tarefasDB = localStorage.getItem('tarefas'); console.log(tarefasDB)
+    //   if (!autoIncTarefa) {
+    //     autoIncTarefa = 1;
+    //     localStorage.setItem('auto_inc_tarefa', autoIncTarefa);
+    //   }
+    //   if (!tarefasDB) {
+    //     localStorage.setItem('tarefas', tarefas);
+    //   } else {
+    //     setTarefas(tarefasDB);
+    //   }
   }, []);
 
   return (
     <>
-      <div className="wrapper">
-        <Sidebar />
-
-        <div className="main">
-          <div className="heading">
-            <div className="title">
-              <ListCheck /> <span>Tarefas</span>
-            </div>
-            <button onClick={() => setShowTodoForm(true)}>Adicionar</button>
-          </div>
-          <div className="tasks">
-            {todos.map((todo, index) => {
-              return <TodoItem data={todo} key={index} onDelete={deleteTodo} />;
-            })}
-          </div>
-          <Modal
-            isOpen={showTodoForm}
-            onClose={() => setShowTodoForm(false)}
-            title="Adicionar tarefa"
-          >
-            <form className="form-todo" onSubmit={(e) => saveTodo(e)}>
-              <div className="form-group">
-                <label>Descrição</label>
-                <textarea rows="4" maxLength={255} ref={shortDescriptionRef} />
-              </div>
-              <div className="form-group">
-                <label>Data de entrega</label>
-                <input type="date" ref={dueDateRef} />
-              </div>
-              <div className="row form-group">
-                <label>Prioridade</label>
-                <select ref={priorityRef}>
-                  <option value=""></option>
-                  <option value="Alta">Alta</option>
-                  <option value="Média">Média</option>
-                  <option value="Baixa">Baixa</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <div className="checkbox">
-                  <input type="checkbox" id="completed" ref={completedRef} />
-                  <label htmlFor="completed">Concluído</label>
-                </div>
-              </div>
-              <button type="submit">Salvar</button>
-            </form>
-          </Modal>
-        </div>
-      </div>
+      <nav>Tarefas</nav>
+      <main>
+        <form onSubmit={adicionarTarefa}>
+          <input
+            type="text"
+            placeholder="Nome da tarefa"
+            value={tarefa}
+            onChange={(e) => setTarefa(e.target.value)}
+          />
+          <button type="submit">Adicionar</button>
+        </form>
+        <ul>
+          {tarefas.map((el, index) => {
+            return (
+              <li key={index}>
+                <span>{el.tarefa}</span>
+                <button type="button">Apagar</button>
+              </li>
+            );
+          })}
+        </ul>
+      </main>
     </>
   );
 }
