@@ -10,7 +10,7 @@ export default ({ mode }) => {
       outDir: process.env.VITE_APP_DIST,
       emptyOutDir: true
     },
-    base: process.env.VITE_API_URL,
+    base: process.env.VITE_PUBLIC_URL,
     plugins: [react()]
   })
 };
