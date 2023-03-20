@@ -17,12 +17,18 @@ function App() {
     });
 
     setTarefas(tarefas);
-    setAutoIncTarefa((prevAutoIncTarefa) => prevAutoIncTarefa + 1);
+    setAutoIncTarefa((prevAutoIncTarefa) => parseInt(prevAutoIncTarefa) + 1);
 
     localStorage.setItem('auto_inc_tarefa', autoIncTarefa);
     localStorage.setItem('tarefas', JSON.stringify(tarefas));
 
     setTarefa('');
+  };
+
+  const apagarTarefa = (id) => {
+    const tarefasAtualizadas = tarefas.filter((el) => el.id != id);
+    setTarefas(tarefasAtualizadas);
+    localStorage.setItem('tarefas', JSON.stringify(tarefasAtualizadas));
   };
 
   useEffect(() => {
@@ -67,7 +73,9 @@ function App() {
               <div className="todo" key={index}>
                 <span>{el.tarefa}</span>
                 <button type="button">Feito</button>
-                <button type="button">Apagar</button>
+                <button type="button" onClick={() => apagarTarefa(el.id)}>
+                  Apagar
+                </button>
               </div>
             );
           })}
