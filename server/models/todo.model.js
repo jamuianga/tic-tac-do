@@ -8,21 +8,18 @@ const Todo = db.define(
       type: DataTypes.BIGINT,
       autoIncrement: true
     },
-    short_description: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
+    short_description: DataTypes.STRING,
     due_date: {
-      type: DataTypes.DATEONLY
+      type: DataTypes.DATEONLY,
+      allowNull: true
     },
     priority: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: true
     },
     is_completed: DataTypes.BOOLEAN,
     is_deleted: DataTypes.BOOLEAN,
-    created: {
-      type: DataTypes.DATE
-    },
+    created: DataTypes.DATE,
     modified: {
       type: DataTypes.DATE,
       allowNull: true

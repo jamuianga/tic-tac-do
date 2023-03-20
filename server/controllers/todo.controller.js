@@ -1,6 +1,6 @@
-import TodoModel from "../models/TodoModel.js";
+import TodoModel from "../models/todo.model.js";
 
-export const createTodo = async (request, response) => {
+const createTodo = async (request, response) => {
   try {
     let { shortDescription, dueDate, priority, is_completed } = request.body;
 
@@ -24,7 +24,7 @@ export const createTodo = async (request, response) => {
   }
 };
 
-export const readTodos = async (request, response) => {
+const readTodos = async (request, response) => {
   try {
     const todos = await TodoModel.findAndCountAll({
       where: {
@@ -39,7 +39,7 @@ export const readTodos = async (request, response) => {
   }
 };
 
-export const updateTodo = async (request, response) => {
+const updateTodo = async (request, response) => {
   try {
     // check if exists
     // check if was deleted
@@ -54,7 +54,7 @@ export const updateTodo = async (request, response) => {
   }
 }
 
-export const deleteTodo = async (request, response) => {
+const deleteTodo = async (request, response) => {
   try {
     if (request.params.todoId === undefined)
       return response.status(500).json('Routing server error');
@@ -76,4 +76,8 @@ export const deleteTodo = async (request, response) => {
     console.log(error);
     return response.status(500).json(error);
   }
+}
+
+export default {
+  createTodo, readTodos, updateTodo, deleteTodo
 }
