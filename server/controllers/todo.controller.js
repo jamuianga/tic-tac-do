@@ -90,10 +90,12 @@ const deleteTodo = async (request, response) => {
     }
 
     // soft delete
-    await todo.update({
-      is_deleted: true,
-      modified: Date.now()
-    });
+    // await todo.update({
+    //   is_deleted: true,
+    //   modified: Date.now()
+    // });
+
+    await todo.destroy();
 
     response.json('Apagado com sucesso');
   } catch (error) {

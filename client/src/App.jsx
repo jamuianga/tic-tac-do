@@ -5,6 +5,7 @@ import {
   CheckBoxOutlined,
 } from '@mui/icons-material';
 import './App.scss';
+import Tarefa from './components/tarefa';
 
 function App() {
   const [tarefas, setTarefas] = useState([]);
@@ -93,25 +94,14 @@ function App() {
           </button>
         </form>
         <div>
-          {tarefas.map((el) => {
-            const concluida = el.is_completed == true ? 'concluida' : '';
-
+          {tarefas.map((tarefa) => {
             return (
-              <div className={`tarefa ${concluida}`} key={el.id}>
-                {el.is_completed == true ? (
-                  <CheckBoxOutlined
-                    onClick={() => atualizarEstadoTarefa(el.id)}
-                  />
-                ) : (
-                  <CheckBoxOutlineBlankOutlined
-                    onClick={() => atualizarEstadoTarefa(el.id)}
-                  />
-                )}
-                <span>{el.short_description}</span>
-                <button type="button" onClick={() => moverTarefaParaLixeira(el.id)}>
-                  Apagar
-                </button>
-              </div>
+              <Tarefa
+                key={tarefa.id}
+                tarefa={tarefa}
+                atualizarEstadoTarefa={atualizarEstadoTarefa}
+                moverTarefaParaLixeira={moverTarefaParaLixeira}
+              />
             );
           })}
         </div>

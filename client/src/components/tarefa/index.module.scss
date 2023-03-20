@@ -1,0 +1,36 @@
+@import '../../App.scss';
+
+.tarefa {
+  display: flex;
+  background-color: $secondary-color;
+  margin-bottom: 10px;
+  padding: 10px;
+  align-items: center;
+
+  svg {
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 28px;
+  }
+
+  .desciption {
+    flex-grow: 1;
+  }
+
+  button {
+    padding: 5px 10px;
+    margin-left: 10px;
+    outline: none;
+    border: none;
+    background-color: $primary-color;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+.concluida {
+  .desciption {
+    text-decoration: line-through;
+    font-style: italic;
+  }
+}
