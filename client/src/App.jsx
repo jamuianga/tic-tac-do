@@ -9,6 +9,8 @@ function App() {
   const adicionarTarefa = (e) => {
     e.preventDefault();
 
+    if (!tarefa) return;
+
     tarefas.push({
       id: autoIncTarefa,
       tarefa: tarefa,
@@ -43,27 +45,33 @@ function App() {
 
   return (
     <>
-      <nav>Tarefas</nav>
+      <nav>
+        <div className="container">Tarefas</div>
+      </nav>
       <main>
         <form onSubmit={adicionarTarefa}>
           <input
+            className="form-input"
             type="text"
             placeholder="Nome da tarefa"
             value={tarefa}
             onChange={(e) => setTarefa(e.target.value)}
           />
-          <button type="submit">Adicionar</button>
+          <button type="submit" className="form-input">
+            Adicionar
+          </button>
         </form>
-        <ul>
+        <div>
           {tarefas.map((el, index) => {
             return (
-              <li key={index}>
+              <div className="todo" key={index}>
                 <span>{el.tarefa}</span>
+                <button type="button">Feito</button>
                 <button type="button">Apagar</button>
-              </li>
+              </div>
             );
           })}
-        </ul>
+        </div>
       </main>
     </>
   );
