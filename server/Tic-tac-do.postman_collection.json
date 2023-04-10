@@ -1,0 +1,35 @@
+{
+	"info": {
+		"_postman_id": "83d12b4f-9824-41f4-bc11-c08b1a24e92c",
+		"name": "Tic-tac-do",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Jânio Muianga\",\n    \"email\": \"janiodrey@gmail.com\",\n    \"password\": \"janiodrey\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/signup",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
