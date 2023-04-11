@@ -30,6 +30,49 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"janiodrey@gmail.com\",\n    \"password\": \"janiodrey\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/login",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base}}/todos",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

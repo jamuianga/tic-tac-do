@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/signup', UserController.signup);
+app.post('/login', UserController.login);
 
 app.use('/todos', TodoRouter);
 
