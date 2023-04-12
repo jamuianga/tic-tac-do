@@ -2,8 +2,9 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
-import TodoRouter from './routes/todo.js';
-import UserController from './controllers/auth.controller.js';
+
+import AuthRouter from './routes/auth.router.js';
+import TodoRouter from './routes/todo.router.js';
 
 const app = express();
 
@@ -11,10 +12,8 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.post('/signup', UserController.signup);
-app.post('/login', UserController.login);
-app.get('/refresh', UserController.refreshToken);
 
+app.use('/auth', AuthRouter);
 app.use('/todos', TodoRouter);
 
 app.listen(Number(process.env.PORT), () => {
