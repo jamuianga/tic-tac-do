@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import UserModel from "../models/user.model.js";
 
 // TODO: has the password. Check if data is valid  
+// TODO enviar refresh tokens tal como no login
 const signup = async (request, response) => {
   try {
     let { name, email, password } = request.body;

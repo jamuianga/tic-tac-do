@@ -1,10 +1,11 @@
 import { Router } from "express";
 import TodoController from "../controllers/todo.controller.js";
-import { checkAuth } from '../controllers/auth.controller.js';
+// import { checkAuth } from '../controllers/auth.controller.js';
+import verifyJwt from "../middleware/verify-jwt.js";
 
 const router = Router();
 
-router.use(checkAuth);
+router.use(verifyJwt);
 
 router.route('/')
   .get(TodoController.readTodos)
