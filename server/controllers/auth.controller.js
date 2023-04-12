@@ -31,48 +31,58 @@ const signup = async (request, response) => {
  * Autenticação do user
  */
 const authenticate = async (request, response) => {
+  try {
+    let { email, password } = request.body;
 
-  let { email, password } = request.body;
+    // validação do form
+    if (!email || !password) {
+      return response.sendStatus(400);
+    }
 
-  // TODO: validar os campos
-  let user = await UserModel.findOne({
-    where: { email }
-  });
+    // TODO verificar se é um email válido
 
-  // validação da senha do user
-  const isPasswordValid = await bcrypt.compare(password, user.password);
+    const user = await UserModel.findOne({
+      where: { email }
+    });
 
-  if (!isPasswordValid) {
-    return response.status(401).json(process.env.RES_401);
+    // validação da senha do user
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return response.status(401).json(process.env.RES_401);
+    }
+
+    // TODO implementar browser finger print
+
+    const access_token = await jwt.sign(
+      {
+        id: user.id
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN * 1
+      }
+    );
+
+    const refreshToken = await jwt.sign(
+      {
+        id: user.id
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN * 1
+      }
+    );
+
+    //TODO guardar refresh token na DB para poder comparar se o device é o mesmo
+
+    response.cookie(process.env.REFRESH_TOKEN_NAME, refreshToken, { httpOnly: true, maxAge: process.env.REFRESH_TOKEN_EXPIRES_IN * 1000, secure: false });
+
+    return response.json({ access_token });
+  } catch (error) {
+    console.log(error);
+    return response.sendStatus(400);
   }
-
-  // TODO implementar browser finger print
-
-  const access_token = await jwt.sign(
-    {
-      id: user.id
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN * 1
-    }
-  );
-
-  const refreshToken = await jwt.sign(
-    {
-      id: user.id
-    },
-    process.env.REFRESH_TOKEN_SECRET,
-    {
-      expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN * 1
-    }
-  );
-
-  //TODO guardar refresh token na DB para poder comparar se o device é o mesmo
-
-  response.cookie(process.env.REFRESH_TOKEN_NAME, refreshToken, { httpOnly: true, maxAge: process.env.REFRESH_TOKEN_EXPIRES_IN * 1000, secure: false });
-
-  return response.json({ access_token });
 };
 
 /**
