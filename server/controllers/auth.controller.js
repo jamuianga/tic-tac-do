@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt';
 import UserModel from "../models/user.model.js";
 
 // TODO: has the password. Check if data is valid  
@@ -7,38 +8,42 @@ const signup = async (request, response) => {
   try {
     let { name, email, password } = request.body;
 
-    let newUser = await UserModel.create({
+    password = await bcrypt.hash(password, 10,);
+
+    let user = await UserModel.create({
       name, email, password, created_at: Date.now()
     });
 
-    const token = await jwt.sign({ id: newUser.id }, 'jwt-secret-key', {
-      expiresIn: 7 * 24 * 60 * 60
-    });
+    // const token = await jwt.sign({ id: user.id }, 'jwt-secret-key', {
+    //   expiresIn: 7 * 24 * 60 * 60
+    // });
 
-    response.cookie('jwt', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000, secure: false });
+    // response.cookie('jwt', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000, secure: false });
 
-    return response.json(token);
+    return response.json(user);
   } catch (error) {
     console.log(error);
     return response.status(500).json(error);
   }
 };
 
-const login = async (request, response) => {
-  let erros = {};
+/**
+ * Autenticação do user
+ */
+const authenticate = async (request, response) => {
+
   let { email, password } = request.body;
 
-  // TODO: validar os campos e password
+  // TODO: validar os campos
   let user = await UserModel.findOne({
     where: { email }
   });
 
-  if (user.password !== password) {
-    erros.password = "Password doesn't match";
-  }
+  // validação da senha do user
+  const isPasswordValid = await bcrypt.compare(password, user.password);
 
-  if (Object.keys(erros).length > 0) {
-    return response.json({ erros });
+  if (!isPasswordValid) {
+    return response.status(401).json(process.env.RES_401);
   }
 
   // TODO implementar browser finger print
@@ -73,14 +78,14 @@ const login = async (request, response) => {
 /**
  * Atualização do ACCESS TOKEN
  */
-export const auhtorize = async (request, response) => {
+export const authorize = async (request, response) => {
   try {
     // leitura dos cookies
     const cookies = request.cookies;
 
     // se não tiver cookies ou o cookie para a atualização do token é enviado 401
-    if (!cookies || cookies[process.env.REFRESH_TOKEN_NAME]) {
-      response.status(401);
+    if (!cookies || !cookies[process.env.REFRESH_TOKEN_NAME]) {
+      return response.status(401).json(process.env.RES_401);
     }
 
     const token = cookies[process.env.REFRESH_TOKEN_NAME];
@@ -91,7 +96,7 @@ export const auhtorize = async (request, response) => {
 
     // se o user não for encontrado na DB é enviado 401
     if (!user) {
-      return response.status(401);
+      return response.status(401).json(process.env.RES_401);
     }
 
     // assinatura do novo token de acesso
@@ -118,5 +123,5 @@ export const auhtorize = async (request, response) => {
 };
 
 export default {
-  signup, login, auhtorize
+  signup, authenticate, authorize
 };
