@@ -41,7 +41,9 @@ const login = async (request, response) => {
     return response.json({ erros });
   }
 
-  const access_token = await jwt.sign(
+  // TODO implementar browser finger print
+
+  const accessToken = await jwt.sign(
     {
       id: user.id
     },
@@ -51,7 +53,7 @@ const login = async (request, response) => {
     }
   );
 
-  const refresh_token = await jwt.sign(
+  const refreshToken = await jwt.sign(
     {
       id: user.id
     },
@@ -63,15 +65,42 @@ const login = async (request, response) => {
 
   //TODO guardar refresh token na DB para poder comparar se o device é o mesmo
 
-  response.cookie('jwt', refresh_token, { httpOnly: true, maxAge: process.env.REFRESH_TOKEN_EXPIRES_IN * 1000, secure: false });
+  response.cookie('jwt', refreshToken, { httpOnly: true, maxAge: process.env.REFRESH_TOKEN_EXPIRES_IN * 1000, secure: false });
 
-  return response.json({ access_token });
+  return response.json({ accessToken });
 };
 
-export const checkAuth = async (request, response, next) => {
+export const refreshToken = async (request, response) => {
   try {
-    console.log(request.cookies);
-    next();
+    const cookies = request.cookies;
+
+    // se não receber nenhum cookie ou 
+    if (!cookies?.jwt) {
+      response.status(401);
+    }
+
+    const refreshToken = cookies.jwt;
+    const decoded = await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    // TODO buscar o user na database através do refresh token. Caso o user não seja encontrado o user enviar 403
+
+    const user = UserModel.findByPk(decoded.id);
+
+    if (!user) {
+      return response.status(403);
+    }
+
+    const accessToken = await jwt.sign(
+      {
+        id: user.id
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN * 1
+      }
+    );
+
+    return response.json({ accessToken });
   } catch (error) {
     console.log(error);
     return response.status(500).json(error);
@@ -79,5 +108,5 @@ export const checkAuth = async (request, response, next) => {
 };
 
 export default {
-  signup, login, checkAuth
+  signup, login, refreshToken
 };

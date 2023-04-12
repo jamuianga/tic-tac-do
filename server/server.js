@@ -13,6 +13,7 @@ app.use(cookieParser());
 
 app.post('/signup', UserController.signup);
 app.post('/login', UserController.login);
+app.get('/refresh', UserController.refreshToken);
 
 app.use('/todos', TodoRouter);
 
