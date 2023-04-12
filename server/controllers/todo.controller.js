@@ -80,7 +80,7 @@ const updateTodo = async (request, response) => {
     console.log(error);
     return response.status(500).json(error);
   }
-}
+};
 
 const deleteTodo = async (request, response) => {
   try {
@@ -109,8 +109,8 @@ const deleteTodo = async (request, response) => {
     console.log(error);
     return response.status(500).json(error);
   }
-}
+};
 
 export default {
   createTodo, readTodos, updateTodo, deleteTodo
-}
+};

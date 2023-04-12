@@ -40,15 +40,43 @@ const login = async (request, response) => {
     return response.json({ erros });
   }
 
-  const token = await jwt.sign({ id: user.id }, 'jwt-secret-key', {
-    expiresIn: 7 * 24 * 60 * 60
-  });
+  const access_token = await jwt.sign(
+    {
+      id: user.id
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN * 1
+    }
+  );
 
-  response.cookie('jwt', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000, secure: false });
+  const refresh_token = await jwt.sign(
+    {
+      id: user.id
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN * 1
+    }
+  );
 
-  return response.json(token);
+  //TODO guardar refresh token na DB para poder comparar se o device é o mesmo
+
+  response.cookie('jwt', refresh_token, { httpOnly: true, maxAge: process.env.REFRESH_TOKEN_EXPIRES_IN * 1000, secure: false });
+
+  return response.json({ access_token });
+};
+
+export const checkAuth = async (request, response, next) => {
+  try {
+    console.log(request.cookies);
+    next();
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json(error);
+  }
 };
 
 export default {
-  signup, login
+  signup, login, checkAuth
 };
