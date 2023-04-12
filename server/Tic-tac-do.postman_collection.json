@@ -1,18 +1,145 @@
 {
 	"info": {
-		"_postman_id": "83d12b4f-9824-41f4-bc11-c08b1a24e92c",
-		"name": "Tic-tac-do",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "bb3e2de2-d391-443b-8fda-f5372c5be5e7",
+		"name": "Tic-Tac-DO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8917523"
 	},
 	"item": [
 		{
-			"name": "signup",
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Authorize",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"token\", pm.response.json().access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/auth",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// pm.environment.set(\"token\", pm.response.json().access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jânio Muianga\",\n  \"email\": \"janiodrey@gmail.com\",\n  \"password\": \"janiodrey\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/resgister",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"resgister"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"token\", pm.response.json().access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"janiodrey@gmail.com\",\n  \"password\": \"janiodrey\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete Todo",
 			"request": {
-				"method": "POST",
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/todos/8",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"todos",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Todo",
+			"request": {
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Jânio Muianga\",\n    \"email\": \"janiodrey@gmail.com\",\n    \"password\": \"janiodrey\"\n}",
+					"raw": "{\n  \"is_completed\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,55 +147,58 @@
 					}
 				},
 				"url": {
-					"raw": "{{base}}/signup",
+					"raw": "{{baseURL}}/todos/8",
 					"host": [
-						"{{base}}"
+						"{{baseURL}}"
 					],
 					"path": [
-						"signup"
+						"todos",
+						"8"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "login",
+			"name": "Read Todos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": \"janiodrey@gmail.com\",\n    \"password\": \"janiodrey\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
 						}
-					}
-				},
-				"url": {
-					"raw": "{{base}}/login",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"login"
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Todos",
-			"request": {
+				},
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"is_completed\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{base}}/todos",
+					"raw": "{{baseURL}}/todos?show=-1",
 					"host": [
-						"{{base}}"
+						"{{baseURL}}"
 					],
 					"path": [
 						"todos"
+					],
+					"query": [
+						{
+							"key": "show",
+							"value": "-1"
+						}
 					]
 				}
 			},

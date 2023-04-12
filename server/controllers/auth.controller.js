@@ -54,29 +54,12 @@ const authenticate = async (request, response) => {
 
     // TODO implementar browser finger print
 
-    const access_token = await jwt.sign(
-      {
-        id: user.id
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN * 1
-      }
-    );
-
-    const refreshToken = await jwt.sign(
-      {
-        id: user.id
-      },
-      process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN * 1
-      }
-    );
+    const access_token = await signAccessToken({ id: user.id });
+    const refresh_token = await signRefreshToken({ id: user.id });
 
     //TODO guardar refresh token na DB para poder comparar se o device é o mesmo
 
-    response.cookie(process.env.REFRESH_TOKEN_NAME, refreshToken, { httpOnly: true, maxAge: process.env.REFRESH_TOKEN_EXPIRES_IN * 1000, secure: false });
+    response.cookie(process.env.REFRESH_TOKEN_NAME, refresh_token, { httpOnly: true, maxAge: process.env.REFRESH_TOKEN_EXPIRES_IN * 1000, secure: false });
 
     return response.json({ access_token });
   } catch (error) {
@@ -110,15 +93,7 @@ export const authorize = async (request, response) => {
     }
 
     // assinatura do novo token de acesso
-    const access_token = await jwt.sign(
-      {
-        id: user.id
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN * 1
-      }
-    );
+    const access_token = await signAccessToken({ id: user.id });
 
     return response.json({ access_token });
   } catch (error) {
@@ -130,6 +105,32 @@ export const authorize = async (request, response) => {
 
     return response.status(500).json(error);
   }
+};
+
+/**
+ * Assinatura de access tokens
+ */
+const signAccessToken = async (payload) => {
+  return await jwt.sign(
+    payload,
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN * 1
+    }
+  );
+};
+
+/**
+ * Assinatura de refresh tokens
+ */
+const signRefreshToken = async (payload) => {
+  return await jwt.sign(
+    payload,
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN * 1
+    }
+  );
 };
 
 export default {
