@@ -13,6 +13,10 @@ const router = createBrowserRouter([
     path: 'login',
     element: <Login />,
   },
+  {
+    path: 'reset-password',
+    element: <div><h1>Redefinir senha</h1></div>,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

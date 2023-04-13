@@ -1,0 +1,37 @@
+.form {
+  margin: 70px auto 0 auto;
+  width: 400px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.btn-login,
+.input-group input {
+  padding: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+
+  label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input {
+    font-size: 16px;
+    outline: none;
+    border-radius: 0px;
+    border: 1px solid #000;
+  }
+}
+
+.btn-login {
+  cursor: pointer;
+  margin: 15px 0;
+}
