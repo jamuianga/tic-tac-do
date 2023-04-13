@@ -4,7 +4,7 @@ import verifyJwt from "../middleware/verify-jwt.js";
 
 const router = Router();
 
-router.use(verifyJwt);
+// router.use(verifyJwt);
 
 router.route('/')
   .get(TodoController.readTodos)

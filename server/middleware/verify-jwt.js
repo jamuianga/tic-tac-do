@@ -8,7 +8,7 @@ export default async (request, response, next) => {
     const auth_header = request.headers['authorization'];
 
     if (!auth_header) {
-      return response.status(401);
+      return response.sendStatus(401);
     }
 
     const token = auth_header.split(' ')[1];
